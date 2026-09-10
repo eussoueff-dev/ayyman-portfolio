@@ -1,12 +1,217 @@
 ---
+import SectionHeading from "../components/SectionHeading.astro";
+import SiteNav from "../components/SiteNav.astro";
+import { NAVIGATION, PORTFOLIO } from "../data/portfolio";
 import BaseLayout from "../layouts/BaseLayout.astro";
-import { SITE_META } from "../lib/site-meta";
+import "../styles/home.css";
 ---
 
 <BaseLayout>
+  <SiteNav items={NAVIGATION} email={PORTFOLIO.links.email} />
+
   <main id="main-content">
-    <p class="eyebrow">Kuala Lumpur · Open to opportunities</p>
-    <h1>{SITE_META.name}</h1>
-    <p class="title">{SITE_META.title}</p>
+    <section class="hero page-container" id="home" aria-labelledby="hero-heading">
+      <div class="hero__layout">
+        <div class="hero__content">
+          <p class="eyebrow">
+            {PORTFOLIO.profile.location} · {PORTFOLIO.profile.studyStatus}
+          </p>
+          <h1 id="hero-heading">{PORTFOLIO.profile.name}</h1>
+          <p class="hero__role">{PORTFOLIO.profile.title}</p>
+          <p class="hero__tagline">{PORTFOLIO.profile.tagline}</p>
+          <div class="hero__actions">
+            <a class="button button--primary" href="#work">
+              View selected work <span aria-hidden="true">↓</span>
+            </a>
+            <a class="button" href={PORTFOLIO.links.email}>
+              Email Ayyman <span aria-hidden="true">↗</span>
+            </a>
+          </div>
+        </div>
+
+        <aside class="profile-panel" aria-label="Profile summary">
+          <div class="profile-panel__mark" aria-hidden="true">
+            {PORTFOLIO.profile.initials}
+          </div>
+          <div class="status-row">
+            <span class="status-dot" aria-hidden="true"></span>
+            <span class="status-label">{PORTFOLIO.profile.availability}</span>
+          </div>
+          <dl class="facts-grid">
+            {PORTFOLIO.facts.map((fact) => (
+              <div class="fact">
+                <dt>{fact.label}</dt>
+                <dd>{fact.value}</dd>
+              </div>
+            ))}
+          </dl>
+        </aside>
+      </div>
+    </section>
+
+    <section class="section page-container" id="expertise" aria-labelledby="expertise-heading">
+      <SectionHeading
+        number="01"
+        eyebrow="Expertise"
+        heading="Three connected disciplines."
+        headingId="expertise-heading"
+        description="My direction sits where product development, delivery workflows, and cloud foundations meet."
+      />
+      <div class="expertise-grid">
+        {PORTFOLIO.expertise.map((area) => (
+          <article class="expertise-card">
+            <span class="card-kicker">{area.number}</span>
+            <h3>{area.title}</h3>
+            <p>{area.summary}</p>
+            <ul class="focus-list" aria-label={`${area.title} focus areas`}>
+              {area.focus.map((item) => (
+                <li>{item}</li>
+              ))}
+            </ul>
+          </article>
+        ))}
+      </div>
+    </section>
+
+    <section class="section page-container" id="work" aria-labelledby="work-heading">
+      <SectionHeading
+        number="02"
+        eyebrow="Selected work"
+        heading="Building in public, one real project at a time."
+        headingId="work-heading"
+        description="Only verified work appears here. More academic and private projects will be added after their details are reviewed."
+      />
+      <div class="work-layout">
+        {PORTFOLIO.featuredProjects.map((project) => (
+          <article class="project-card">
+            <div class="project-card__top">
+              <span class="card-kicker">{project.type}</span>
+              <span class="project-status">{project.status}</span>
+            </div>
+            <h3>{project.title}</h3>
+            <p>{project.summary}</p>
+            <ul class="stack-list" aria-label={`${project.title} technology`}>
+              {project.stack.map((item) => (
+                <li>{item}</li>
+              ))}
+            </ul>
+          </article>
+        ))}
+        <aside class="archive-note" aria-labelledby="archive-heading">
+          <span class="card-kicker">Project archive</span>
+          <h3 id="archive-heading">More evidence, not filler.</h3>
+          <p>
+            The archive will grow as real project descriptions, repositories, screenshots, and
+            outcomes are verified.
+          </p>
+        </aside>
+      </div>
+    </section>
+
+    <section class="section page-container" id="about" aria-labelledby="about-heading">
+      <SectionHeading
+        number="03"
+        eyebrow="About"
+        heading="Curious about the whole system."
+        headingId="about-heading"
+      />
+      <div class="about-grid">
+        <div class="about-copy">
+          {PORTFOLIO.profile.biography.map((paragraph) => (
+            <p>{paragraph}</p>
+          ))}
+        </div>
+        <aside class="about-panel" aria-label="Personal approach">
+          <strong>Build clearly. Ship carefully. Keep learning.</strong>
+        </aside>
+      </div>
+    </section>
+
+    <section class="section page-container" id="journey" aria-labelledby="journey-heading">
+      <SectionHeading
+        number="04"
+        eyebrow="Journey"
+        heading="Learning with direction."
+        headingId="journey-heading"
+        description="Education is shown now; experience, certifications, and achievements will appear only after supporting details are provided."
+      />
+      <div class="journey-layout">
+        {PORTFOLIO.education.map((entry) => (
+          <article class="timeline">
+            <div class="timeline__top">
+              <span class="card-kicker">{entry.period}</span>
+              <span>{entry.organization}</span>
+            </div>
+            <h3>{entry.title}</h3>
+            <p>{entry.description}</p>
+          </article>
+        ))}
+      </div>
+    </section>
+
+    <section class="section page-container" id="now" aria-labelledby="now-heading">
+      <SectionHeading
+        number="05"
+        eyebrow="Now"
+        heading="What I am focused on now."
+        headingId="now-heading"
+        description="A current snapshot of study, opportunity, practice, and the habits I want to strengthen."
+      />
+      <div class="now-grid">
+        {PORTFOLIO.now.map((item) => (
+          <article class="now-card">
+            <span class="card-kicker">{item.number}</span>
+            <h3>{item.title}</h3>
+            <p>{item.description}</p>
+          </article>
+        ))}
+      </div>
+    </section>
+
+    <section class="section page-container" id="contact" aria-labelledby="contact-heading">
+      <SectionHeading
+        number="06"
+        eyebrow="Contact"
+        heading="Let’s build something useful."
+        headingId="contact-heading"
+        description="I’m open to conversations about full-time roles, internships, collaboration, and thoughtful software projects."
+      />
+      <div class="contact-grid">
+        <div class="contact-panel">
+          <span class="card-kicker">Start a conversation</span>
+          <a class="contact-email" href={PORTFOLIO.links.email}>
+            eussoueff@gmail.com
+          </a>
+          <p class="contact-copy">
+            The secure on-site form arrives after the local design is approved. Email works now.
+          </p>
+        </div>
+        <div class="contact-panel">
+          <span class="card-kicker">Elsewhere</span>
+          <div class="social-links">
+            <a class="social-link" href={PORTFOLIO.links.github} target="_blank" rel="noreferrer">
+              GitHub ↗
+            </a>
+            <a class="social-link" href={PORTFOLIO.links.linkedin} target="_blank" rel="noreferrer">
+              LinkedIn ↗
+            </a>
+          </div>
+          {PORTFOLIO.resumeUrl && (
+            <a class="button" href={PORTFOLIO.resumeUrl}>
+              Download résumé
+            </a>
+          )}
+        </div>
+      </div>
+    </section>
   </main>
+
+  <footer class="site-footer">
+    <div class="page-container footer-row">
+      <p>
+        © {new Date().getFullYear()} {PORTFOLIO.profile.name}
+      </p>
+      <p class="footer-meta">Designed and engineered as a side project.</p>
+    </div>
+  </footer>
 </BaseLayout>

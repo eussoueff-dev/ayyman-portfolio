@@ -1,0 +1,32 @@
+---
+import type { NavigationItem } from "../data/portfolio";
+import "../styles/navigation.css";
+
+interface Props {
+  items: readonly NavigationItem[];
+  email: string;
+}
+
+const { items, email } = Astro.props;
+---
+
+<header class="site-header">
+  <nav class="site-nav" aria-label="Primary navigation">
+    <a class="brand" href="#home" aria-label="Ayyman Eussoueff, back to introduction">
+      <span class="brand__mark" aria-hidden="true">
+        AE
+      </span>
+      <span class="brand__name">Ayyman</span>
+    </a>
+
+    <div class="site-nav__links">
+      {items.map((item) => (
+        <a href={item.href}>{item.label}</a>
+      ))}
+    </div>
+
+    <a class="nav-contact" href={email}>
+      Let’s talk <span aria-hidden="true">↗</span>
+    </a>
+  </nav>
+</header>
