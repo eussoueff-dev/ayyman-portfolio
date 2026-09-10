@@ -1,0 +1,12 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { SITE_META } from "../lib/site-meta";
+---
+
+<BaseLayout>
+  <main id="main-content">
+    <p class="eyebrow">Kuala Lumpur · Open to opportunities</p>
+    <h1>{SITE_META.name}</h1>
+    <p class="title">{SITE_META.title}</p>
+  </main>
+</BaseLayout>

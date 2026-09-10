@@ -1,0 +1,29 @@
+---
+import { SITE_META } from "../lib/site-meta";
+import "../styles/global.css";
+interface Props {
+  title?: string;
+  description?: string;
+}
+const { title = `${SITE_META.name} — ${SITE_META.title}`, description = SITE_META.description } =
+  Astro.props;
+const canonicalUrl = new URL(Astro.url.pathname, SITE_META.canonicalUrl);
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonicalUrl} />
+    <meta name="generator" content={Astro.generator} />
+    <title>{title}</title>
+  </head>
+  <body>
+    <a class="skip-link" href="#main-content">
+      Skip to content
+    </a>
+    <slot />
+  </body>
+</html>

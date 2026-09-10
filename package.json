@@ -1,0 +1,45 @@
+{
+  "name": "ayyman-portfolio",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "check": "astro check",
+    "lint": "eslint .",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "test": "vitest run",
+    "test:e2e": "playwright test"
+  },
+  "dependencies": {
+    "@astrojs/react": "6.0.5",
+    "@designcodeio/threeui": "1.2.0",
+    "astro": "7.3.2",
+    "react": "19.3.0",
+    "react-dom": "19.3.0",
+    "three": "0.149.0"
+  },
+  "devDependencies": {
+    "@astrojs/check": "0.9.10",
+    "@eslint/js": "10.0.1",
+    "@playwright/test": "1.63.0",
+    "@types/node": "24.13.4",
+    "@types/react": "19.3.0",
+    "@types/react-dom": "19.3.0",
+    "eslint": "10.10.0",
+    "eslint-plugin-astro": "3.1.0",
+    "globals": "17.12.0",
+    "prettier": "3.9.6",
+    "prettier-plugin-astro": "1.0.0",
+    "typescript": "6.0.3",
+    "typescript-eslint": "8.70.0",
+    "vitest": "5.0.0"
+  },
+  "engines": {
+    "node": ">=24.0.0",
+    "npm": ">=11.0.0"
+  }
+}

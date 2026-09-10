@@ -1,0 +1,28 @@
+# Dependencies
+node_modules/
+
+# Astro build output and generated types
+dist/
+.astro/
+
+# Local environment files and secrets
+.env
+.env.*
+!.env.example
+
+# Test artifacts
+playwright-report/
+test-results/
+coverage/
+
+# Editors and operating systems
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Firebase local state
+.firebase/
+firebase-debug.log
+firestore-debug.log
+ui-debug.log
