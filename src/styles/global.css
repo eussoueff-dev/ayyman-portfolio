@@ -66,3 +66,17 @@
     font-size: clamp(1rem, 2.2vw, 1.4rem);
   }
 }
+
+.static-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  background:
+    radial-gradient(circle at 24% 20%, rgba(255, 82, 26, 0.38), transparent 34%),
+    linear-gradient(145deg, #180704, #050302 60%, #100301);
+}
+
+.site-shell {
+  position: relative;
+  z-index: 1;
+}
