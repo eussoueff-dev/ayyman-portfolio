@@ -12,7 +12,9 @@ const expectedSections = [
 test("renders the complete verified homepage shell", async ({ page }) => {
   await page.goto("/");
 
-  await expect(page.getByRole("navigation", { name: "Primary navigation" })).toBeVisible();
+  const navigation = page.getByRole("navigation", { name: "Primary navigation" });
+  await expect(navigation).toBeVisible();
+  await expect(navigation.getByRole("link", { name: "Work" })).toBeVisible();
   await expect(
     page.getByText("Open to work and internships", { exact: true }).first(),
   ).toBeVisible();
@@ -37,14 +39,65 @@ test("renders the complete verified homepage shell", async ({ page }) => {
   );
 });
 
-test("stays within a 320 pixel mobile viewport", async ({ page }) => {
+test("stays usable within narrow and short mobile viewports", async ({ page }) => {
   await page.setViewportSize({ width: 320, height: 740 });
   await page.goto("/");
+
+  const menuButton = page.getByRole("button", { name: "Toggle navigation menu" });
+  const menuPanel = page.locator("#mobile-navigation");
+  await expect(menuButton).toBeVisible();
+  await menuButton.click();
+  await expect(menuButton).toHaveAttribute("aria-expanded", "true");
+  await expect(menuPanel).toBeVisible();
+
+  const mobileWorkLink = menuPanel.getByRole("link", { name: "Work" });
+  await expect(mobileWorkLink).toBeVisible();
 
   const dimensions = await page.evaluate(() => ({
     viewport: document.documentElement.clientWidth,
     content: document.documentElement.scrollWidth,
+    overflowingElements: Array.from(document.body.querySelectorAll<HTMLElement>("*"))
+      .filter((element) => {
+        const style = window.getComputedStyle(element);
+        const bounds = element.getBoundingClientRect();
+        const belongsToBackdrop = Boolean(element.closest(".visual-backdrop, .static-backdrop"));
+
+        return (
+          !belongsToBackdrop &&
+          style.display !== "none" &&
+          style.visibility !== "hidden" &&
+          bounds.width > 0 &&
+          (bounds.left < -1 || bounds.right > window.innerWidth + 1)
+        );
+      })
+      .map((element) => element.className || element.tagName),
   }));
 
   expect(dimensions.content).toBe(dimensions.viewport);
+  expect(dimensions.overflowingElements).toEqual([]);
+
+  await page.keyboard.press("Escape");
+  await expect(menuButton).toHaveAttribute("aria-expanded", "false");
+  await expect(menuPanel).toBeHidden();
+  await expect(menuButton).toBeFocused();
+
+  await menuButton.click();
+  await mobileWorkLink.click();
+  await expect(page).toHaveURL(/#work$/);
+  await expect(menuButton).toHaveAttribute("aria-expanded", "false");
+  await expect(menuPanel).toBeHidden();
+  await expect(page.locator("#work")).toBeFocused();
+
+  await page.setViewportSize({ width: 320, height: 320 });
+  await page.goto("/");
+  await page.getByRole("button", { name: "Toggle navigation menu" }).click();
+
+  const shortPanel = page.locator("#mobile-navigation");
+  const panelBounds = await shortPanel.boundingBox();
+  expect(panelBounds).not.toBeNull();
+  expect(panelBounds!.y + panelBounds!.height).toBeLessThanOrEqual(321);
+
+  const mobileContact = shortPanel.getByRole("link", { name: "Start a conversation" });
+  await mobileContact.scrollIntoViewIfNeeded();
+  await expect(mobileContact).toBeVisible();
 });

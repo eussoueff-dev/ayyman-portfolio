@@ -4,15 +4,22 @@ import SiteNav from "../components/SiteNav.astro";
 import { NAVIGATION, PORTFOLIO } from "../data/portfolio";
 import BaseLayout from "../layouts/BaseLayout.astro";
 import "../styles/home.css";
+
+const emailAddress = PORTFOLIO.links.email.replace("mailto:", "");
 ---
 
 <BaseLayout>
-  <SiteNav items={NAVIGATION} email={PORTFOLIO.links.email} />
+  <SiteNav
+    items={NAVIGATION}
+    email={PORTFOLIO.links.email}
+    name={PORTFOLIO.profile.name}
+    initials={PORTFOLIO.profile.initials}
+  />
 
-  <main id="main-content">
+  <main id="main-content" tabindex="-1">
     <section class="hero page-container" id="home" aria-labelledby="hero-heading">
       <div class="hero__layout">
-        <div class="hero__content">
+        <div class="hero__content" data-reveal>
           <p class="eyebrow">
             {PORTFOLIO.profile.location} · {PORTFOLIO.profile.studyStatus}
           </p>
@@ -29,7 +36,7 @@ import "../styles/home.css";
           </div>
         </div>
 
-        <aside class="profile-panel" aria-label="Profile summary">
+        <aside class="profile-panel" aria-label="Profile summary" data-reveal>
           <div class="profile-panel__mark" aria-hidden="true">
             {PORTFOLIO.profile.initials}
           </div>
@@ -59,7 +66,7 @@ import "../styles/home.css";
       />
       <div class="expertise-grid">
         {PORTFOLIO.expertise.map((area) => (
-          <article class="expertise-card">
+          <article class="expertise-card" data-reveal>
             <span class="card-kicker">{area.number}</span>
             <h3>{area.title}</h3>
             <p>{area.summary}</p>
@@ -83,7 +90,7 @@ import "../styles/home.css";
       />
       <div class="work-layout">
         {PORTFOLIO.featuredProjects.map((project) => (
-          <article class="project-card">
+          <article class="project-card" data-reveal>
             <div class="project-card__top">
               <span class="card-kicker">{project.type}</span>
               <span class="project-status">{project.status}</span>
@@ -97,7 +104,7 @@ import "../styles/home.css";
             </ul>
           </article>
         ))}
-        <aside class="archive-note" aria-labelledby="archive-heading">
+        <aside class="archive-note" aria-labelledby="archive-heading" data-reveal>
           <span class="card-kicker">Project archive</span>
           <h3 id="archive-heading">More evidence, not filler.</h3>
           <p>
@@ -116,12 +123,12 @@ import "../styles/home.css";
         headingId="about-heading"
       />
       <div class="about-grid">
-        <div class="about-copy">
+        <div class="about-copy" data-reveal>
           {PORTFOLIO.profile.biography.map((paragraph) => (
             <p>{paragraph}</p>
           ))}
         </div>
-        <aside class="about-panel" aria-label="Personal approach">
+        <aside class="about-panel" aria-label="Personal approach" data-reveal>
           <strong>Build clearly. Ship carefully. Keep learning.</strong>
         </aside>
       </div>
@@ -137,7 +144,7 @@ import "../styles/home.css";
       />
       <div class="journey-layout">
         {PORTFOLIO.education.map((entry) => (
-          <article class="timeline">
+          <article class="timeline" data-reveal>
             <div class="timeline__top">
               <span class="card-kicker">{entry.period}</span>
               <span>{entry.organization}</span>
@@ -159,7 +166,7 @@ import "../styles/home.css";
       />
       <div class="now-grid">
         {PORTFOLIO.now.map((item) => (
-          <article class="now-card">
+          <article class="now-card" data-reveal>
             <span class="card-kicker">{item.number}</span>
             <h3>{item.title}</h3>
             <p>{item.description}</p>
@@ -177,23 +184,23 @@ import "../styles/home.css";
         description="I’m open to conversations about full-time roles, internships, collaboration, and thoughtful software projects."
       />
       <div class="contact-grid">
-        <div class="contact-panel">
+        <div class="contact-panel" data-reveal>
           <span class="card-kicker">Start a conversation</span>
           <a class="contact-email" href={PORTFOLIO.links.email}>
-            eussoueff@gmail.com
+            {emailAddress}
           </a>
           <p class="contact-copy">
             The secure on-site form arrives after the local design is approved. Email works now.
           </p>
         </div>
-        <div class="contact-panel">
+        <div class="contact-panel" data-reveal>
           <span class="card-kicker">Elsewhere</span>
           <div class="social-links">
             <a class="social-link" href={PORTFOLIO.links.github} target="_blank" rel="noreferrer">
-              GitHub ↗
+              GitHub <span aria-hidden="true">↗</span>
             </a>
             <a class="social-link" href={PORTFOLIO.links.linkedin} target="_blank" rel="noreferrer">
-              LinkedIn ↗
+              LinkedIn <span aria-hidden="true">↗</span>
             </a>
           </div>
           {PORTFOLIO.resumeUrl && (

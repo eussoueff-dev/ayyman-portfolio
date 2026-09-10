@@ -4,29 +4,122 @@ import "../styles/navigation.css";
 
 interface Props {
   items: readonly NavigationItem[];
-  email: string;
+  email: `mailto:${string}`;
+  name: string;
+  initials: string;
 }
 
-const { items, email } = Astro.props;
+const { items, email, name, initials } = Astro.props;
+const firstName = name.split(" ", 1)[0] ?? name;
 ---
 
 <header class="site-header">
   <nav class="site-nav" aria-label="Primary navigation">
-    <a class="brand" href="#home" aria-label="Ayyman Eussoueff, back to introduction">
+    <a class="brand" href="#home" aria-label={`${name}, back to introduction`}>
       <span class="brand__mark" aria-hidden="true">
-        AE
+        {initials}
       </span>
-      <span class="brand__name">Ayyman</span>
+      <span class="brand__name">{firstName}</span>
     </a>
 
-    <div class="site-nav__links">
+    <ul class="site-nav__links" role="list">
       {items.map((item) => (
-        <a href={item.href}>{item.label}</a>
+        <li>
+          <a href={item.href}>{item.label}</a>
+        </li>
       ))}
-    </div>
+    </ul>
 
     <a class="nav-contact" href={email}>
       Let’s talk <span aria-hidden="true">↗</span>
     </a>
+
+    <div class="nav-menu">
+      <button
+        class="nav-menu__toggle"
+        type="button"
+        aria-expanded="false"
+        aria-controls="mobile-navigation"
+        aria-label="Toggle navigation menu"
+      >
+        <span class="nav-menu__label">Menu</span>
+        <span class="nav-menu__icon" aria-hidden="true">
+          <span></span>
+          <span></span>
+        </span>
+      </button>
+      <div class="nav-menu__panel" id="mobile-navigation" hidden>
+        <p class="nav-menu__eyebrow">Explore</p>
+        <ul role="list">
+          {items.map((item) => (
+            <li>
+              <a href={item.href}>
+                <span>{item.label}</span>
+                <span aria-hidden="true">↘</span>
+              </a>
+            </li>
+          ))}
+        </ul>
+        <a class="nav-menu__contact" href={email}>
+          Start a conversation <span aria-hidden="true">↗</span>
+        </a>
+      </div>
+    </div>
   </nav>
 </header>
+
+<script>
+  const navigationMenus = document.querySelectorAll<HTMLElement>(".nav-menu");
+
+  navigationMenus.forEach((menu) => {
+    const toggle = menu.querySelector<HTMLButtonElement>(".nav-menu__toggle");
+    const panel = menu.querySelector<HTMLElement>(".nav-menu__panel");
+
+    if (!toggle || !panel) return;
+
+    const setMenuOpen = (isOpen: boolean) => {
+      toggle.setAttribute("aria-expanded", String(isOpen));
+      panel.hidden = !isOpen;
+      menu.classList.toggle("is-open", isOpen);
+    };
+
+    const closeMenu = () => setMenuOpen(false);
+
+    toggle.addEventListener("click", () => {
+      setMenuOpen(toggle.getAttribute("aria-expanded") !== "true");
+    });
+
+    menu.querySelectorAll<HTMLAnchorElement>("a").forEach((link) => {
+      link.addEventListener("click", () => {
+        closeMenu();
+
+        const targetId = link.hash.slice(1);
+        const target = targetId ? document.getElementById(decodeURIComponent(targetId)) : null;
+
+        if (!target) {
+          toggle.focus();
+          return;
+        }
+
+        target.setAttribute("tabindex", "-1");
+        target.addEventListener("blur", () => target.removeAttribute("tabindex"), { once: true });
+        window.requestAnimationFrame(() => target.focus({ preventScroll: true }));
+      });
+    });
+
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape" && toggle.getAttribute("aria-expanded") === "true") {
+        closeMenu();
+        toggle.focus();
+      }
+    });
+
+    document.addEventListener("pointerdown", (event) => {
+      if (event.target instanceof Node && !menu.contains(event.target)) closeMenu();
+    });
+
+    window.matchMedia("(min-width: 50rem)").addEventListener("change", (event) => {
+      if (event.matches) closeMenu();
+    });
+  });
+</script>
