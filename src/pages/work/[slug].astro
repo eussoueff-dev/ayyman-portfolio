@@ -1,0 +1,142 @@
+---
+import type { GetStaticPaths } from "astro";
+
+import SectionHeading from "../../components/SectionHeading.astro";
+import SiteNav from "../../components/SiteNav.astro";
+import { CASE_STUDIES, type CaseStudy } from "../../data/case-studies";
+import { NAVIGATION, PORTFOLIO } from "../../data/portfolio";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import "../../styles/home.css";
+import "../../styles/case-study.css";
+
+export const getStaticPaths = (() =>
+  CASE_STUDIES.map((study) => ({
+    params: { slug: study.slug },
+    props: { study },
+  }))) satisfies GetStaticPaths;
+
+interface Props {
+  study: CaseStudy;
+}
+
+const { study } = Astro.props as Props;
+const otherStudy = CASE_STUDIES.find((candidate) => candidate.slug !== study.slug);
+---
+
+<BaseLayout title={study.metaTitle} description={study.metaDescription}>
+  <SiteNav
+    items={NAVIGATION}
+    email={PORTFOLIO.links.email}
+    name={PORTFOLIO.profile.name}
+    initials={PORTFOLIO.profile.initials}
+  />
+
+  <main class="case-main" id="main-content" tabindex="-1">
+    <header class="case-hero page-container" aria-labelledby="case-title">
+      <a class="case-back" href="/#work" data-reveal="left">
+        <span aria-hidden="true">←</span> Back to selected work
+      </a>
+
+      <div class="case-hero__grid">
+        <div class="case-hero__copy glass-card" data-reveal="left">
+          <p class="case-kicker">
+            {study.type} · {study.status}
+          </p>
+          <h1 id="case-title">{study.title}</h1>
+          <p class="case-role">{study.role}</p>
+          <p class="case-intro">{study.intro}</p>
+          {study.links.length > 0 && (
+            <div class="case-actions">
+              {study.links.map((link) => (
+                <a class="button button--primary" href={link.href} target="_blank" rel="noreferrer">
+                  {link.label} <span aria-hidden="true">↗</span>
+                </a>
+              ))}
+            </div>
+          )}
+        </div>
+
+        <aside
+          class="case-panel"
+          data-project={study.slug}
+          data-reveal="right"
+          aria-label={`${study.title} project summary`}
+        >
+          <div class="case-panel__top">
+            <div class="case-mark" aria-hidden="true">
+              {study.mark}
+            </div>
+            <span class="case-status">{study.status}</span>
+          </div>
+
+          <dl class="case-facts">
+            {study.facts.map((fact) => (
+              <div class="case-fact">
+                <dt>{fact.label}</dt>
+                <dd>{fact.value}</dd>
+              </div>
+            ))}
+          </dl>
+
+          <div class="case-stack">
+            <ul class="stack-list" aria-label={`${study.title} technology`}>
+              {study.stack.map((item) => (
+                <li>{item}</li>
+              ))}
+            </ul>
+          </div>
+
+          <p class="case-repository">{study.repositoryNote}</p>
+        </aside>
+      </div>
+    </header>
+
+    {study.sections.map((section) => (
+      <section
+        class="case-section page-container"
+        id={section.id}
+        aria-labelledby={`${section.id}-heading`}
+      >
+        <SectionHeading
+          number={section.number}
+          eyebrow={section.eyebrow}
+          heading={section.heading}
+          headingId={`${section.id}-heading`}
+        />
+        <div class="case-section__body glass-card" data-reveal="right">
+          {section.paragraphs.map((paragraph) => (
+            <p>{paragraph}</p>
+          ))}
+          {section.bullets && (
+            <ul class="case-list">
+              {section.bullets.map((bullet) => (
+                <li>{bullet}</li>
+              ))}
+            </ul>
+          )}
+        </div>
+      </section>
+    ))}
+
+    {otherStudy && (
+      <aside class="case-footer page-container" aria-labelledby="next-case-heading">
+        <div class="case-next" data-reveal="scale">
+          <p class="case-next__label">Next verified case study</p>
+          <h2 id="next-case-heading">{otherStudy.title}</h2>
+          <a href={otherStudy.href}>
+            Read {otherStudy.title} <span aria-hidden="true">→</span>
+          </a>
+        </div>
+      </aside>
+    )}
+  </main>
+
+  <footer class="site-footer">
+    <div class="page-container footer-row glass-card" data-reveal="up">
+      <p>
+        © {new Date().getFullYear()} {PORTFOLIO.profile.name}
+      </p>
+      <a href="/#work">Selected work</a>
+    </div>
+  </footer>
+</BaseLayout>

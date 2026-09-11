@@ -5,7 +5,7 @@ const backdropHydrationTimeout = 15_000;
 test.describe.configure({ mode: "serial" });
 
 test("renders the exact Halftone Flow in a fixed full-viewport layer", async ({ page }) => {
-  await page.goto("/");
+  await page.goto("/", { waitUntil: "domcontentloaded" });
 
   const backdrop = page.getByTestId("halftone-backdrop");
   await expect(backdrop).toHaveAttribute("data-rendering", "webgl", {
@@ -15,10 +15,13 @@ test("renders the exact Halftone Flow in a fixed full-viewport layer", async ({ 
     timeout: backdropHydrationTimeout,
   });
 
-  const canvas = page
-    .frameLocator('iframe[title="Nexus unified halftone flow"]')
-    .locator("#glcanvas");
+  const frame = page.frameLocator('iframe[title="Nexus unified halftone flow"]');
+  const canvas = frame.locator("#glcanvas");
+  await expect(frame.locator("body")).toHaveAttribute("data-threeui-ready", "", {
+    timeout: backdropHydrationTimeout,
+  });
   await expect(canvas).toBeVisible({ timeout: backdropHydrationTimeout });
+  await expect(backdrop.locator(".visual-backdrop__veil")).toHaveCount(0);
   await expect
     .poll(
       () =>
@@ -26,6 +29,18 @@ test("renders the exact Halftone Flow in a fixed full-viewport layer", async ({ 
       { timeout: backdropHydrationTimeout },
     )
     .toBe(true);
+
+  const canvasDimensions = await canvas.evaluate((element) => ({
+    width: (element as HTMLCanvasElement).width,
+    height: (element as HTMLCanvasElement).height,
+  }));
+  expect(canvasDimensions.width).toBeGreaterThan(0);
+  expect(canvasDimensions.height).toBeGreaterThan(0);
+
+  const firstFrame = await canvas.screenshot();
+  await page.waitForTimeout(500);
+  const secondFrame = await canvas.screenshot();
+  expect(secondFrame.equals(firstFrame)).toBe(false);
 
   const placement = await backdrop.evaluate((element) => {
     const bounds = element.getBoundingClientRect();
@@ -53,7 +68,7 @@ test("renders the exact Halftone Flow in a fixed full-viewport layer", async ({ 
 
 test("keeps a static wrapper-level fallback for reduced motion", async ({ page }) => {
   await page.emulateMedia({ reducedMotion: "reduce" });
-  await page.goto("/");
+  await page.goto("/", { waitUntil: "domcontentloaded" });
 
   const backdrop = page.getByTestId("halftone-backdrop");
   await expect(backdrop).toHaveAttribute("data-rendering", "static", {

@@ -30,5 +30,8 @@ const canonicalUrl = new URL(Astro.url.pathname, SITE_META.canonicalUrl);
     <div class="site-shell">
       <slot />
     </div>
+    <script>
+      import "../scripts/reveal";
+    </script>
   </body>
 </html>

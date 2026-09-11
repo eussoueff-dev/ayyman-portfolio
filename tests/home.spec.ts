@@ -1,7 +1,7 @@
 import { expect, test } from "@playwright/test";
 
 test("introduces Ayyman with his approved professional title", async ({ page }) => {
-  await page.goto("/");
+  await page.goto("/", { waitUntil: "domcontentloaded" });
 
   const heading = page.getByRole("heading", { level: 1, name: "Ayyman Eussoueff" });
   await expect(page).toHaveTitle(/Ayyman Eussoueff/);

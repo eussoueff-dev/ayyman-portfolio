@@ -45,7 +45,6 @@ export default function VisualBackdrop() {
           <PredictiveArcCanvas variant="halftone-flow" hue={0} saturation={1.0} brightness={1.0} />
         </div>
       ) : null}
-      <div className="visual-backdrop__veil" />
     </div>
   );
 }

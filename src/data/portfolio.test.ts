@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 
+import { CASE_STUDIES } from "./case-studies";
 import { NAVIGATION, PORTFOLIO } from "./portfolio";
 
 describe("portfolio content", () => {
@@ -21,10 +22,23 @@ describe("portfolio content", () => {
   it("uses unique, valid homepage navigation anchors", () => {
     const hrefs = NAVIGATION.map(({ href }) => href);
     expect(new Set(hrefs).size).toBe(hrefs.length);
-    expect(hrefs.every((href) => /^#[a-z][a-z-]*$/.test(href))).toBe(true);
+    expect(hrefs.every((href) => /^\/#?[a-z][a-z-]*$/.test(href))).toBe(true);
   });
 
   it("does not fabricate content that still needs supporting material", () => {
+    expect(CASE_STUDIES.map(({ title, slug, href }) => ({ title, slug, href }))).toEqual([
+      {
+        title: "AutoConstruct",
+        slug: "autoconstruct",
+        href: "/work/autoconstruct/",
+      },
+      {
+        title: "Miss-Compete",
+        slug: "miss-compete",
+        href: "/work/miss-compete/",
+      },
+    ]);
+    expect(PORTFOLIO.featuredProjects).toEqual(CASE_STUDIES);
     expect(PORTFOLIO.experience).toEqual([]);
     expect(PORTFOLIO.certifications).toEqual([]);
     expect(PORTFOLIO.achievements).toEqual([]);

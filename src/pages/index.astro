@@ -1,6 +1,11 @@
 ---
+import { Image } from "astro:assets";
+
+import profilePicture from "../assets/identity/ayyman-profile.jpeg";
+import puoLogo from "../assets/identity/puo-logo.jpeg";
 import SectionHeading from "../components/SectionHeading.astro";
 import SiteNav from "../components/SiteNav.astro";
+import TechnologyConstellation from "../components/TechnologyConstellation.astro";
 import { NAVIGATION, PORTFOLIO } from "../data/portfolio";
 import BaseLayout from "../layouts/BaseLayout.astro";
 import "../styles/home.css";
@@ -19,7 +24,7 @@ const emailAddress = PORTFOLIO.links.email.replace("mailto:", "");
   <main id="main-content" tabindex="-1">
     <section class="hero page-container" id="home" aria-labelledby="hero-heading">
       <div class="hero__layout">
-        <div class="hero__content" data-reveal>
+        <div class="hero__content glass-card" data-reveal="left">
           <p class="eyebrow">
             {PORTFOLIO.profile.location} · {PORTFOLIO.profile.studyStatus}
           </p>
@@ -36,9 +41,20 @@ const emailAddress = PORTFOLIO.links.email.replace("mailto:", "");
           </div>
         </div>
 
-        <aside class="profile-panel" aria-label="Profile summary" data-reveal>
-          <div class="profile-panel__mark" aria-hidden="true">
-            {PORTFOLIO.profile.initials}
+        <aside class="profile-panel" aria-label="Profile summary" data-reveal="right">
+          <div class="profile-panel__portrait-frame">
+            <Image
+              src={profilePicture}
+              alt="Ayyman Eussoueff in formal attire"
+              class="profile-panel__portrait"
+              loading="eager"
+              fetchpriority="high"
+              format="webp"
+              quality={92}
+            />
+            <span class="profile-panel__monogram" aria-hidden="true">
+              {PORTFOLIO.profile.initials}
+            </span>
           </div>
           <div class="status-row">
             <span class="status-dot" aria-hidden="true"></span>
@@ -65,8 +81,8 @@ const emailAddress = PORTFOLIO.links.email.replace("mailto:", "");
         description="My direction sits where product development, delivery workflows, and cloud foundations meet."
       />
       <div class="expertise-grid">
-        {PORTFOLIO.expertise.map((area) => (
-          <article class="expertise-card" data-reveal>
+        {PORTFOLIO.expertise.map((area, index) => (
+          <article class="expertise-card" data-reveal="up" style={`--reveal-delay:${index * 80}ms`}>
             <span class="card-kicker">{area.number}</span>
             <h3>{area.title}</h3>
             <p>{area.summary}</p>
@@ -80,55 +96,64 @@ const emailAddress = PORTFOLIO.links.email.replace("mailto:", "");
       </div>
     </section>
 
+    <TechnologyConstellation />
+
     <section class="section page-container" id="work" aria-labelledby="work-heading">
       <SectionHeading
-        number="02"
+        number="03"
         eyebrow="Selected work"
         heading="Building in public, one real project at a time."
         headingId="work-heading"
-        description="Only verified work appears here. More academic and private projects will be added after their details are reviewed."
+        description="Two source-verified case studies: one collaborative final-year system and one personal Android product prototype."
       />
       <div class="work-layout">
-        {PORTFOLIO.featuredProjects.map((project) => (
-          <article class="project-card" data-reveal>
+        {PORTFOLIO.featuredProjects.map((project, index) => (
+          <article
+            class="project-card"
+            data-project={project.slug}
+            data-reveal={index % 2 === 0 ? "left" : "right"}
+            aria-labelledby={`project-${project.slug}`}
+          >
             <div class="project-card__top">
               <span class="card-kicker">{project.type}</span>
               <span class="project-status">{project.status}</span>
             </div>
-            <h3>{project.title}</h3>
-            <p>{project.summary}</p>
+            <div class="project-card__copy">
+              <p class="project-card__role">{project.role}</p>
+              <h3 id={`project-${project.slug}`}>{project.title}</h3>
+              <p>{project.summary}</p>
+            </div>
             <ul class="stack-list" aria-label={`${project.title} technology`}>
               {project.stack.map((item) => (
                 <li>{item}</li>
               ))}
             </ul>
+            <a
+              class="project-link"
+              href={project.href}
+              aria-label={`Read ${project.title} case study`}
+            >
+              Read case study <span aria-hidden="true">↗</span>
+            </a>
           </article>
         ))}
-        <aside class="archive-note" aria-labelledby="archive-heading" data-reveal>
-          <span class="card-kicker">Project archive</span>
-          <h3 id="archive-heading">More evidence, not filler.</h3>
-          <p>
-            The archive will grow as real project descriptions, repositories, screenshots, and
-            outcomes are verified.
-          </p>
-        </aside>
       </div>
     </section>
 
     <section class="section page-container" id="about" aria-labelledby="about-heading">
       <SectionHeading
-        number="03"
+        number="04"
         eyebrow="About"
         heading="Curious about the whole system."
         headingId="about-heading"
       />
       <div class="about-grid">
-        <div class="about-copy" data-reveal>
+        <div class="about-copy glass-card" data-reveal="left">
           {PORTFOLIO.profile.biography.map((paragraph) => (
             <p>{paragraph}</p>
           ))}
         </div>
-        <aside class="about-panel" aria-label="Personal approach" data-reveal>
+        <aside class="about-panel" aria-label="Personal approach" data-reveal="right">
           <strong>Build clearly. Ship carefully. Keep learning.</strong>
         </aside>
       </div>
@@ -136,7 +161,7 @@ const emailAddress = PORTFOLIO.links.email.replace("mailto:", "");
 
     <section class="section page-container" id="journey" aria-labelledby="journey-heading">
       <SectionHeading
-        number="04"
+        number="05"
         eyebrow="Journey"
         heading="Learning with direction."
         headingId="journey-heading"
@@ -144,13 +169,27 @@ const emailAddress = PORTFOLIO.links.email.replace("mailto:", "");
       />
       <div class="journey-layout">
         {PORTFOLIO.education.map((entry) => (
-          <article class="timeline" data-reveal>
-            <div class="timeline__top">
-              <span class="card-kicker">{entry.period}</span>
-              <span>{entry.organization}</span>
+          <article class="timeline" data-reveal="up">
+            <div class="timeline__identity">
+              <div class="timeline__crest-frame">
+                <Image
+                  src={puoLogo}
+                  alt="Politeknik Ungku Omar crest"
+                  class="timeline__crest"
+                  loading="lazy"
+                  format="webp"
+                  quality={90}
+                />
+              </div>
+              <div class="timeline__copy">
+                <div class="timeline__top">
+                  <span class="card-kicker">{entry.period}</span>
+                  <span>{entry.organization}</span>
+                </div>
+                <h3>{entry.title}</h3>
+                <p>{entry.description}</p>
+              </div>
             </div>
-            <h3>{entry.title}</h3>
-            <p>{entry.description}</p>
           </article>
         ))}
       </div>
@@ -158,15 +197,15 @@ const emailAddress = PORTFOLIO.links.email.replace("mailto:", "");
 
     <section class="section page-container" id="now" aria-labelledby="now-heading">
       <SectionHeading
-        number="05"
+        number="06"
         eyebrow="Now"
         heading="What I am focused on now."
         headingId="now-heading"
         description="A current snapshot of study, opportunity, practice, and the habits I want to strengthen."
       />
       <div class="now-grid">
-        {PORTFOLIO.now.map((item) => (
-          <article class="now-card" data-reveal>
+        {PORTFOLIO.now.map((item, index) => (
+          <article class="now-card" data-reveal="up" style={`--reveal-delay:${index * 65}ms`}>
             <span class="card-kicker">{item.number}</span>
             <h3>{item.title}</h3>
             <p>{item.description}</p>
@@ -177,14 +216,14 @@ const emailAddress = PORTFOLIO.links.email.replace("mailto:", "");
 
     <section class="section page-container" id="contact" aria-labelledby="contact-heading">
       <SectionHeading
-        number="06"
+        number="07"
         eyebrow="Contact"
         heading="Let’s build something useful."
         headingId="contact-heading"
         description="I’m open to conversations about full-time roles, internships, collaboration, and thoughtful software projects."
       />
       <div class="contact-grid">
-        <div class="contact-panel" data-reveal>
+        <div class="contact-panel" data-reveal="left">
           <span class="card-kicker">Start a conversation</span>
           <a class="contact-email" href={PORTFOLIO.links.email}>
             {emailAddress}
@@ -193,7 +232,7 @@ const emailAddress = PORTFOLIO.links.email.replace("mailto:", "");
             The secure on-site form arrives after the local design is approved. Email works now.
           </p>
         </div>
-        <div class="contact-panel" data-reveal>
+        <div class="contact-panel" data-reveal="right">
           <span class="card-kicker">Elsewhere</span>
           <div class="social-links">
             <a class="social-link" href={PORTFOLIO.links.github} target="_blank" rel="noreferrer">
@@ -214,7 +253,7 @@ const emailAddress = PORTFOLIO.links.email.replace("mailto:", "");
   </main>
 
   <footer class="site-footer">
-    <div class="page-container footer-row">
+    <div class="page-container footer-row glass-card" data-reveal="up">
       <p>
         © {new Date().getFullYear()} {PORTFOLIO.profile.name}
       </p>

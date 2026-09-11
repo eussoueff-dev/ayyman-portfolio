@@ -10,7 +10,7 @@ const expectedSections = [
 ] as const;
 
 test("renders the complete verified homepage shell", async ({ page }) => {
-  await page.goto("/");
+  await page.goto("/", { waitUntil: "domcontentloaded" });
 
   const navigation = page.getByRole("navigation", { name: "Primary navigation" });
   await expect(navigation).toBeVisible();
@@ -41,7 +41,7 @@ test("renders the complete verified homepage shell", async ({ page }) => {
 
 test("stays usable within narrow and short mobile viewports", async ({ page }) => {
   await page.setViewportSize({ width: 320, height: 740 });
-  await page.goto("/");
+  await page.goto("/", { waitUntil: "domcontentloaded" });
 
   const menuButton = page.getByRole("button", { name: "Toggle navigation menu" });
   const menuPanel = page.locator("#mobile-navigation");
@@ -89,7 +89,7 @@ test("stays usable within narrow and short mobile viewports", async ({ page }) =
   await expect(page.locator("#work")).toBeFocused();
 
   await page.setViewportSize({ width: 320, height: 320 });
-  await page.goto("/");
+  await page.goto("/", { waitUntil: "domcontentloaded" });
   await page.getByRole("button", { name: "Toggle navigation menu" }).click();
 
   const shortPanel = page.locator("#mobile-navigation");

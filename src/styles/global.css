@@ -18,7 +18,8 @@
   h3,
   p,
   dl,
-  dd {
+  dd,
+  figure {
     margin: 0;
   }
 
@@ -32,15 +33,15 @@
 @layer base {
   :root {
     --color-ink: #fffaf5;
-    --color-muted: #d8cec5;
-    --color-dim: #a99d94;
+    --color-muted: #e2d8cf;
+    --color-dim: #b9aba1;
     --color-accent: #ff8a50;
-    --color-accent-bright: #ffb28c;
-    --color-surface: rgba(13, 8, 6, 0.7);
-    --color-surface-strong: rgba(10, 6, 5, 0.88);
-    --color-line: rgba(255, 255, 255, 0.16);
-    --color-line-strong: rgba(255, 174, 132, 0.42);
-    --shadow-glass: 0 1.5rem 4rem rgba(0, 0, 0, 0.34);
+    --color-accent-bright: #ffc09f;
+    --color-surface: rgba(9, 6, 5, 0.84);
+    --color-surface-strong: rgba(7, 5, 4, 0.94);
+    --color-line: rgba(255, 255, 255, 0.18);
+    --color-line-strong: rgba(255, 174, 132, 0.5);
+    --shadow-glass: 0 1.5rem 4rem rgba(0, 0, 0, 0.4);
     --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
     font-family:
       Inter,
@@ -98,6 +99,53 @@
     transform: translateY(0);
   }
 
+  .sr-only {
+    position: absolute !important;
+    width: 1px !important;
+    height: 1px !important;
+    padding: 0 !important;
+    overflow: hidden !important;
+    clip: rect(0, 0, 0, 0) !important;
+    white-space: nowrap !important;
+    border: 0 !important;
+  }
+
+  [data-reveal][data-reveal-state] {
+    transition:
+      opacity 700ms var(--ease-out) var(--reveal-delay, 0ms),
+      filter 700ms var(--ease-out) var(--reveal-delay, 0ms),
+      transform 700ms var(--ease-out) var(--reveal-delay, 0ms);
+  }
+
+  [data-reveal="left"] {
+    --reveal-x: -1.75rem;
+    --reveal-y: 0;
+  }
+
+  [data-reveal="right"] {
+    --reveal-x: 1.75rem;
+    --reveal-y: 0;
+  }
+
+  [data-reveal="scale"] {
+    --reveal-x: 0;
+    --reveal-y: 0.75rem;
+    --reveal-scale: 0.97;
+  }
+
+  [data-reveal-state="pending"] {
+    opacity: 0;
+    filter: blur(0.55rem);
+    transform: translate3d(var(--reveal-x, 0), var(--reveal-y, 1.5rem), 0)
+      scale(var(--reveal-scale, 0.985));
+  }
+
+  [data-reveal-state="revealed"] {
+    opacity: 1;
+    filter: blur(0);
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+
   @supports (scrollbar-color: auto) {
     * {
       scrollbar-color: rgba(255, 138, 80, 0.72) rgba(8, 5, 4, 0.9);
@@ -121,6 +169,14 @@
   isolation: isolate;
 }
 
+@media (max-width: 47.99rem) {
+  [data-reveal="left"],
+  [data-reveal="right"] {
+    --reveal-x: 0;
+    --reveal-y: 1.25rem;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
@@ -139,5 +195,9 @@
 @media (forced-colors: active) {
   :focus-visible {
     outline-color: Highlight;
+  }
+
+  [data-reveal] {
+    filter: none !important;
   }
 }

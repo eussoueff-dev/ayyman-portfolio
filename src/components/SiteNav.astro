@@ -15,7 +15,7 @@ const firstName = name.split(" ", 1)[0] ?? name;
 
 <header class="site-header">
   <nav class="site-nav" aria-label="Primary navigation">
-    <a class="brand" href="#home" aria-label={`${name}, back to introduction`}>
+    <a class="brand" href="/#home" aria-label={`${name}, back to introduction`}>
       <span class="brand__mark" aria-hidden="true">
         {initials}
       </span>
@@ -84,6 +84,7 @@ const firstName = name.split(" ", 1)[0] ?? name;
     };
 
     const closeMenu = () => setMenuOpen(false);
+    const normalizePath = (path: string) => (path.endsWith("/") ? path : `${path}/`);
 
     toggle.addEventListener("click", () => {
       setMenuOpen(toggle.getAttribute("aria-expanded") !== "true");
@@ -93,13 +94,20 @@ const firstName = name.split(" ", 1)[0] ?? name;
       link.addEventListener("click", () => {
         closeMenu();
 
-        const targetId = link.hash.slice(1);
-        const target = targetId ? document.getElementById(decodeURIComponent(targetId)) : null;
+        const destination = new URL(link.href, window.location.href);
+        const staysOnCurrentPage =
+          destination.origin === window.location.origin &&
+          normalizePath(destination.pathname) === normalizePath(window.location.pathname);
 
-        if (!target) {
-          toggle.focus();
+        if (!staysOnCurrentPage) {
+          if (destination.protocol === "mailto:") toggle.focus();
           return;
         }
+
+        const targetId = destination.hash.slice(1);
+        const target = targetId ? document.getElementById(decodeURIComponent(targetId)) : null;
+
+        if (!target) return;
 
         target.setAttribute("tabindex", "-1");
         target.addEventListener("blur", () => target.removeAttribute("tabindex"), { once: true });

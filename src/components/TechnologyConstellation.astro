@@ -1,0 +1,246 @@
+---
+import {
+  siC,
+  siDocker,
+  siFirebase,
+  siJavascript,
+  siKubernetes,
+  siNextdotjs,
+  siNvidia,
+  siOllama,
+  siPython,
+  siSupabase,
+  siTypescript,
+  siVercel,
+} from "simple-icons";
+
+import BrandOrbCluster from "./react/BrandOrbCluster";
+import SectionHeading from "./SectionHeading.astro";
+import "../styles/technology-constellation.css";
+
+interface TechnologyNode {
+  label: string;
+  slug: string;
+  color: `#${string}`;
+  x: number;
+  y: number;
+  duration: number;
+  delay: number;
+  icon?: {
+    path: string;
+  };
+  mark?: string;
+}
+
+const technologies: readonly TechnologyNode[] = [
+  {
+    label: "NVIDIA",
+    slug: "nvidia",
+    color: "#76B900",
+    x: 6,
+    y: 30,
+    duration: 10,
+    delay: -2,
+    icon: siNvidia,
+  },
+  {
+    label: "Kiro",
+    slug: "kiro",
+    color: "#B38CFF",
+    x: 22,
+    y: 27,
+    duration: 12,
+    delay: -8,
+    mark: "K",
+  },
+  {
+    label: "Hermes AI",
+    slug: "hermes",
+    color: "#F4C36A",
+    x: 78,
+    y: 27,
+    duration: 11,
+    delay: -4,
+    mark: "H",
+  },
+  {
+    label: "Ollama",
+    slug: "ollama",
+    color: "#FFFFFF",
+    x: 94,
+    y: 30,
+    duration: 9,
+    delay: -6,
+    icon: siOllama,
+  },
+  {
+    label: "JavaScript",
+    slug: "javascript",
+    color: "#F7DF1E",
+    x: 6,
+    y: 52,
+    duration: 11,
+    delay: -1,
+    icon: siJavascript,
+  },
+  {
+    label: "Python",
+    slug: "python",
+    color: "#FFD43B",
+    x: 22,
+    y: 48,
+    duration: 10,
+    delay: -7,
+    icon: siPython,
+  },
+  { label: "C", slug: "c", color: "#A8B9CC", x: 78, y: 48, duration: 12, delay: -3, icon: siC },
+  {
+    label: "TypeScript",
+    slug: "typescript",
+    color: "#69A7E5",
+    x: 94,
+    y: 52,
+    duration: 9.5,
+    delay: -5,
+    icon: siTypescript,
+  },
+  {
+    label: "Next.js",
+    slug: "nextjs",
+    color: "#FFFFFF",
+    x: 8,
+    y: 73,
+    duration: 10,
+    delay: -8,
+    icon: siNextdotjs,
+  },
+  {
+    label: "Kubernetes",
+    slug: "kubernetes",
+    color: "#6C9DFF",
+    x: 24,
+    y: 77,
+    duration: 12,
+    delay: -2,
+    icon: siKubernetes,
+  },
+  {
+    label: "Docker",
+    slug: "docker",
+    color: "#54B9FF",
+    x: 76,
+    y: 77,
+    duration: 10.5,
+    delay: -6,
+    icon: siDocker,
+  },
+  {
+    label: "AWS",
+    slug: "aws",
+    color: "#F4F4F4",
+    x: 92,
+    y: 73,
+    duration: 11,
+    delay: -4,
+    mark: "aws",
+  },
+  {
+    label: "Supabase",
+    slug: "supabase",
+    color: "#3ECF8E",
+    x: 20,
+    y: 92,
+    duration: 9.5,
+    delay: -5,
+    icon: siSupabase,
+  },
+  {
+    label: "Firebase",
+    slug: "firebase",
+    color: "#FFCA28",
+    x: 50,
+    y: 91,
+    duration: 12,
+    delay: -9,
+    icon: siFirebase,
+  },
+  {
+    label: "Vercel",
+    slug: "vercel",
+    color: "#FFFFFF",
+    x: 80,
+    y: 92,
+    duration: 10,
+    delay: -3,
+    icon: siVercel,
+  },
+];
+
+const accessibleTechnologyNames = [
+  "ChatGPT",
+  "Claude",
+  "Gemini",
+  "GitHub",
+  "React",
+  ...technologies.map((technology) => technology.label),
+];
+---
+
+<section
+  class="section page-container technology-section"
+  id="stack"
+  aria-labelledby="stack-heading"
+>
+  <SectionHeading
+    number="02"
+    eyebrow="Technology orbit"
+    heading="The tools in my working universe."
+    headingId="stack-heading"
+    description="A living map of the languages, platforms, AI tools, and cloud services I have used while learning and building."
+  />
+
+  <div class="technology-scene glass-card" data-reveal="scale">
+    <div class="technology-core">
+      <p class="technology-core__eyebrow">Tool constellation</p>
+      <h3>Twenty tools. One connected workflow.</h3>
+      <p>
+        From product code to deployment and AI-assisted exploration, each tool represents part of
+        how I turn an idea into a working system.
+      </p>
+      <span class="technology-core__signal">Live stack</span>
+    </div>
+
+    <span class="orbit-ring orbit-ring--one" aria-hidden="true"></span>
+    <span class="orbit-ring orbit-ring--two" aria-hidden="true"></span>
+    <span class="orbit-ring orbit-ring--three" aria-hidden="true"></span>
+
+    <BrandOrbCluster client:visible />
+
+    <ul class="technology-nodes" aria-hidden="true">
+      {technologies.map((technology) => (
+        <li
+          class="tech-node"
+          data-tech={technology.slug}
+          style={`--brand:${technology.color};--node-x:${technology.x}%;--node-y:${technology.y}%;--node-duration:${technology.duration}s;--node-delay:${technology.delay}s`}
+        >
+          {technology.icon ? (
+            <svg class="tech-node__icon" viewBox="0 0 24 24" role="presentation">
+              <path fill="currentColor" d={technology.icon.path}></path>
+            </svg>
+          ) : (
+            <span class={`tech-node__monogram tech-node__monogram--${technology.slug}`}>
+              {technology.slug === "kiro" ? <span>{technology.mark}</span> : technology.mark}
+            </span>
+          )}
+          <span class="tech-node__label">{technology.label}</span>
+        </li>
+      ))}
+    </ul>
+
+    <ul class="sr-only" aria-label="Technologies Ayyman has used">
+      {accessibleTechnologyNames.map((technology) => (
+        <li>{technology}</li>
+      ))}
+    </ul>
+  </div>
+</section>

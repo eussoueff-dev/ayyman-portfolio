@@ -20,3 +20,15 @@ The portfolio uses the public ThreeUI Community component described below withou
 All three decoded file bodies were independently hashed with SHA-256 immediately before integration and matched the approved values.
 
 The authored source runs in a sandboxed iframe and references public CDN scripts and media. Those paths are intentionally preserved. Accessibility and unavailable-WebGL behavior are implemented outside the component as wrapper-level fallbacks.
+
+## Brand Orbs Community component
+
+The technology-orbit section also uses the package's verified `BrandOrbs` renderer without modifying its authored Canvas 2D source.
+
+- Family reference: <https://threeui.com/ui-elements/brand-orbs>
+- OpenAI reference: <https://threeui.com/ui-elements/brand-orbs/openai>
+- Package import: `@designcodeio/threeui/components/BrandOrbs`
+- Variants used: `openai`, `claude`, `gemini`, `github`, and `react`
+- Presentation: `size="medium"`, `mode="dark"`, reduced speeds, wrapper-controlled reduced-motion pause
+
+The orbs are section-local decoration inside the content layer. They do not modify, cover, or replace the approved full-viewport Halftone Flow renderer.

@@ -1,6 +1,5 @@
 .visual-backdrop,
 .visual-backdrop__fallback,
-.visual-backdrop__veil,
 .shader-frame {
   position: absolute;
   inset: 0;
@@ -30,11 +29,4 @@
 .shader-frame > * {
   width: 100%;
   height: 100%;
-}
-
-.visual-backdrop__veil {
-  z-index: 2;
-  background:
-    linear-gradient(180deg, rgba(4, 2, 1, 0.18), rgba(4, 2, 1, 0.58)),
-    radial-gradient(circle at 50% 34%, transparent 18%, rgba(4, 2, 1, 0.42) 88%);
 }

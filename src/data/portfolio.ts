@@ -1,6 +1,8 @@
+import { CASE_STUDIES, type ProjectPreview } from "./case-studies";
+
 export interface NavigationItem {
   label: string;
-  href: `#${string}`;
+  href: `/#${string}`;
 }
 
 interface ProfileFact {
@@ -13,14 +15,6 @@ interface ExpertiseArea {
   title: string;
   summary: string;
   focus: readonly string[];
-}
-
-interface ProjectPreview {
-  title: string;
-  type: string;
-  status: string;
-  summary: string;
-  stack: readonly string[];
 }
 
 interface TimelineEntry {
@@ -68,11 +62,12 @@ interface PortfolioData {
 }
 
 export const NAVIGATION = [
-  { label: "Expertise", href: "#expertise" },
-  { label: "Work", href: "#work" },
-  { label: "About", href: "#about" },
-  { label: "Journey", href: "#journey" },
-  { label: "Now", href: "#now" },
+  { label: "Expertise", href: "/#expertise" },
+  { label: "Stack", href: "/#stack" },
+  { label: "Work", href: "/#work" },
+  { label: "About", href: "/#about" },
+  { label: "Journey", href: "/#journey" },
+  { label: "Now", href: "/#now" },
 ] as const satisfies readonly NavigationItem[];
 
 export const PORTFOLIO = {
@@ -89,6 +84,7 @@ export const PORTFOLIO = {
     biography: [
       "I’m a final-year student at Politeknik Ungku Omar, based in Kuala Lumpur and focused on understanding how complete digital products come together.",
       "My direction connects full-stack development with DevOps and cloud engineering: build useful software, ship it with care, and keep improving how it runs.",
+      "My recent work includes integrating and hardening a team-built Firebase operations platform and prototyping a local-first Android product for student competition discovery.",
     ],
   },
   links: {
@@ -125,16 +121,7 @@ export const PORTFOLIO = {
       focus: ["Cloud foundations", "Serverless architecture", "Reliability"],
     },
   ],
-  featuredProjects: [
-    {
-      title: "Ayyman Portfolio",
-      type: "Personal project",
-      status: "In development",
-      summary:
-        "A local-first portfolio engineered as a tested static site with an exact WebGL background, typed content, and a planned Firebase delivery pipeline.",
-      stack: ["Astro", "React", "TypeScript", "ThreeUI", "Playwright"],
-    },
-  ],
+  featuredProjects: CASE_STUDIES,
   projectArchive: [],
   education: [
     {
