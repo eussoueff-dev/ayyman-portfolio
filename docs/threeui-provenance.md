@@ -21,6 +21,8 @@ All three decoded file bodies were independently hashed with SHA-256 immediately
 
 The authored source runs in a sandboxed iframe and references public CDN scripts and media. Those paths are intentionally preserved. Accessibility and unavailable-WebGL behavior are implemented outside the component as wrapper-level fallbacks.
 
+The portfolio applies a presentation-only compositor filter to the iframe wrapper: a 12-second eased transition from the authored orange appearance (`hue-rotate(0deg)`) to a green endpoint (`hue-rotate(100deg)`), followed by the reverse transition. This host-level cycle does not change the registered ThreeUI source or the approved component props, and it is enabled only when the user has not requested reduced motion. Reduced-motion and unavailable-WebGL modes keep the static orange fallback.
+
 ## Brand Orbs Community component
 
 The technology-orbit section also uses the package's verified `BrandOrbs` renderer without modifying its authored Canvas 2D source.

@@ -14,6 +14,8 @@ import {
   siVercel,
 } from "simple-icons";
 
+import kiroLogo from "../assets/technology/kiro.svg?url";
+import nousResearchLogo from "../assets/technology/nous-research.jpg?url";
 import BrandOrbCluster from "./react/BrandOrbCluster";
 import SectionHeading from "./SectionHeading.astro";
 import "../styles/technology-constellation.css";
@@ -29,6 +31,7 @@ interface TechnologyNode {
   icon?: {
     path: string;
   };
+  logo?: string;
   mark?: string;
 }
 
@@ -51,7 +54,7 @@ const technologies: readonly TechnologyNode[] = [
     y: 27,
     duration: 12,
     delay: -8,
-    mark: "K",
+    logo: kiroLogo,
   },
   {
     label: "Hermes AI",
@@ -61,7 +64,7 @@ const technologies: readonly TechnologyNode[] = [
     y: 27,
     duration: 11,
     delay: -4,
-    mark: "H",
+    logo: nousResearchLogo,
   },
   {
     label: "Ollama",
@@ -223,13 +226,25 @@ const accessibleTechnologyNames = [
           data-tech={technology.slug}
           style={`--brand:${technology.color};--node-x:${technology.x}%;--node-y:${technology.y}%;--node-duration:${technology.duration}s;--node-delay:${technology.delay}s`}
         >
-          {technology.icon ? (
+          {technology.logo ? (
+            <img
+              src={technology.logo}
+              alt=""
+              class={`tech-node__logo tech-node__logo--${technology.slug}`}
+              data-tech-logo={technology.slug}
+              width="48"
+              height="48"
+              loading="lazy"
+              decoding="async"
+              draggable="false"
+            />
+          ) : technology.icon ? (
             <svg class="tech-node__icon" viewBox="0 0 24 24" role="presentation">
               <path fill="currentColor" d={technology.icon.path}></path>
             </svg>
           ) : (
             <span class={`tech-node__monogram tech-node__monogram--${technology.slug}`}>
-              {technology.slug === "kiro" ? <span>{technology.mark}</span> : technology.mark}
+              {technology.mark}
             </span>
           )}
           <span class="tech-node__label">{technology.label}</span>

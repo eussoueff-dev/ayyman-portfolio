@@ -117,6 +117,29 @@
   filter: drop-shadow(0 0 0.75rem color-mix(in srgb, currentcolor 45%, transparent));
 }
 
+.tech-node__logo {
+  display: block;
+  width: 2.65rem;
+  height: 2.65rem;
+  flex: none;
+  object-fit: contain;
+  filter: drop-shadow(0 0 0.75rem color-mix(in srgb, currentcolor 45%, transparent));
+  user-select: none;
+}
+
+.tech-node__logo--kiro {
+  width: 2.8rem;
+  height: 2.8rem;
+}
+
+.tech-node__logo--hermes {
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.42);
+  border-radius: 0.72rem;
+  background: #fff;
+  object-fit: cover;
+}
+
 .tech-node__monogram {
   position: relative;
   display: grid;
@@ -128,46 +151,6 @@
   font-weight: 950;
   letter-spacing: -0.08em;
   filter: drop-shadow(0 0 0.7rem color-mix(in srgb, currentcolor 48%, transparent));
-}
-
-.tech-node__monogram--kiro {
-  border: 1px solid currentcolor;
-  border-radius: 0.8rem 0.2rem 0.8rem 0.2rem;
-  transform: rotate(8deg);
-}
-
-.tech-node__monogram--kiro > span {
-  transform: rotate(-8deg);
-}
-
-.tech-node__monogram--kiro::after {
-  position: absolute;
-  top: -0.45rem;
-  right: -0.4rem;
-  content: "✦";
-  font-size: 0.75rem;
-}
-
-.tech-node__monogram--hermes {
-  border: 1px solid currentcolor;
-  border-radius: 50%;
-}
-
-.tech-node__monogram--hermes::before,
-.tech-node__monogram--hermes::after {
-  position: absolute;
-  width: 2.9rem;
-  height: 0.8rem;
-  border: 1px solid currentcolor;
-  border-top: 0;
-  border-bottom: 0;
-  border-radius: 50%;
-  content: "";
-  transform: rotate(28deg);
-}
-
-.tech-node__monogram--hermes::after {
-  transform: rotate(-28deg);
 }
 
 .tech-node__monogram--aws {
@@ -311,7 +294,8 @@
 }
 
 @media (forced-colors: active) {
-  .orbit-ring {
+  .orbit-ring,
+  .tech-node__logo {
     display: none;
   }
 

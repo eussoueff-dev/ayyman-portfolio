@@ -115,7 +115,7 @@ export const PORTFOLIO = {
     },
     {
       number: "03",
-      title: "Cloud",
+      title: "Cloud Developer",
       summary:
         "Exploring modern cloud foundations and serverless systems with reliability in mind from day one.",
       focus: ["Cloud foundations", "Serverless architecture", "Reliability"],

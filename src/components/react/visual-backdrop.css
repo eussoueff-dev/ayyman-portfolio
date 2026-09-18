@@ -26,6 +26,23 @@
   z-index: 1;
 }
 
+@media (prefers-reduced-motion: no-preference) {
+  .visual-backdrop[data-rendering="webgl"] .shader-frame {
+    animation: halftone-orange-green-cycle 12s ease-in-out infinite alternate;
+    will-change: filter;
+  }
+}
+
+@keyframes halftone-orange-green-cycle {
+  from {
+    filter: hue-rotate(0deg);
+  }
+
+  to {
+    filter: hue-rotate(100deg);
+  }
+}
+
 .shader-frame > * {
   width: 100%;
   height: 100%;
