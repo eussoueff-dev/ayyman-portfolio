@@ -39,13 +39,18 @@ export default function BrandOrbCluster() {
 
   useEffect(() => {
     const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
-    const updateMotion = () => setPaused(reducedMotion.matches);
+    const updateMotion = () =>
+      setPaused(reducedMotion.matches || document.documentElement.dataset.motion === "paused");
 
     updateMotion();
     setMounted(true);
     reducedMotion.addEventListener("change", updateMotion);
+    document.addEventListener("portfolio-theme-change", updateMotion);
 
-    return () => reducedMotion.removeEventListener("change", updateMotion);
+    return () => {
+      reducedMotion.removeEventListener("change", updateMotion);
+      document.removeEventListener("portfolio-theme-change", updateMotion);
+    };
   }, []);
 
   useEffect(() => {

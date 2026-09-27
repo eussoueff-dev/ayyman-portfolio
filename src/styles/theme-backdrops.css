@@ -1,0 +1,295 @@
+/* Decorative layers never intercept input or cover portfolio content. */
+.theme-backdrop {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  contain: strict;
+}
+.backdrop-scene {
+  position: absolute;
+  inset: -2rem;
+  display: none;
+  translate: var(--backdrop-x, 0px) var(--backdrop-y, 0px);
+  transition: translate 800ms ease-out;
+}
+.backdrop-scene > * {
+  position: absolute;
+}
+html[data-theme="typography"] .backdrop-scene--typography,
+html[data-theme="minimalism"] .backdrop-scene--minimalism,
+html[data-theme="brutalism"] .backdrop-scene--brutalism,
+html[data-theme="maximalism"] .backdrop-scene--maximalism {
+  display: block;
+}
+html[data-theme]:is([data-theme="typography"], [data-theme="minimalism"]) .hero__content {
+  background: transparent;
+}
+
+/* Letterpress paper and an oversized, slowly shifting type specimen. */
+.type-rules {
+  inset: 0;
+  background: repeating-linear-gradient(
+    90deg,
+    transparent 0 calc(20% - 1px),
+    #797b6614 calc(20% - 1px) 20%
+  );
+}
+.type-specimen {
+  left: -0.06em;
+  bottom: -0.23em;
+  color: transparent;
+  -webkit-text-stroke: 1px #797b6640;
+  font:
+    italic clamp(20rem, 47vw, 52rem)/1 Georgia,
+    serif;
+  letter-spacing: -0.1em;
+  animation: specimen-drift 24s ease-in-out infinite alternate;
+}
+.type-ampersand {
+  top: 2%;
+  right: 28%;
+  font:
+    italic clamp(14rem, 25vw, 30rem)/1 Georgia,
+    serif;
+  color: #b53d2614;
+  animation: backdrop-float 18s ease-in-out infinite alternate-reverse;
+}
+.type-baseline {
+  top: 82%;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  background: #b53d2638;
+  animation: baseline-drift 20s ease-in-out infinite alternate;
+}
+.type-baseline::after {
+  position: absolute;
+  right: 28%;
+  top: -4px;
+  width: 9px;
+  height: 9px;
+  content: "";
+  background: #b53d2670;
+}
+
+/* Soft daylight and slow contour motion keep the minimal theme spacious. */
+.minimal-wash {
+  width: min(85vw, 80rem);
+  aspect-ratio: 1;
+  top: -35%;
+  right: -18%;
+  background: radial-gradient(ellipse, #b2c7b34d, #dfdfbf26 45%, transparent 70%);
+  animation: backdrop-float 22s ease-in-out infinite alternate;
+}
+.minimal-contours {
+  width: min(90vw, 85rem);
+  height: auto;
+  right: -20%;
+  top: 5%;
+  stroke: #6b8d7326;
+  stroke-width: 1;
+  animation: contour-breathe 26s ease-in-out infinite alternate;
+}
+.minimal-satellite {
+  width: 0.65rem;
+  aspect-ratio: 1;
+  top: 78%;
+  left: 18%;
+  border: 1px solid #79978266;
+  border-radius: 50%;
+  box-shadow: 0 0 0 1rem #79978208;
+  animation: backdrop-float 16s ease-in-out infinite alternate-reverse;
+}
+
+/* Drafting film, registration marks, and mechanical rather than fluid motion. */
+.draft-grid {
+  inset: 0;
+  background-image:
+    linear-gradient(#14141410 1px, transparent 1px),
+    linear-gradient(90deg, #14141410 1px, transparent 1px);
+  background-size: 64px 64px;
+}
+.draft-scan {
+  inset: 16% 0 auto;
+  height: 3rem;
+  border-block: 1px solid #14141425;
+  background: #d8fa3638;
+  animation: draft-scan 18s steps(18) infinite alternate;
+}
+.draft-orbit {
+  width: clamp(16rem, 32vw, 34rem);
+  right: 18%;
+  top: -6%;
+  stroke: #14141424;
+  stroke-width: 2;
+  animation: draft-turn 36s steps(12) infinite;
+}
+.draft-hatch {
+  width: clamp(12rem, 25vw, 25rem);
+  height: 8rem;
+  left: -3%;
+  bottom: 3%;
+  border: 2px solid #14141420;
+  background: repeating-linear-gradient(-45deg, #1414141c 0 2px, transparent 2px 12px);
+  animation: backdrop-float 12s steps(8) infinite alternate;
+}
+.draft-cross {
+  font: 2.2rem/1 monospace;
+  color: #14141450;
+}
+.draft-cross--one {
+  top: 25%;
+  left: 4%;
+}
+.draft-cross--two {
+  bottom: 12%;
+  right: 4%;
+}
+
+/* Memphis-inspired cut paper: rotating petals, checks, ribbons, and confetti. */
+.collage-checks {
+  width: clamp(16rem, 30vw, 32rem);
+  height: 16rem;
+  left: -5%;
+  bottom: -7%;
+  background: repeating-conic-gradient(#b02d3538 0% 25%, #fff1d566 0% 50%) 0 0 / 52px 52px;
+  rotate: -14deg;
+  animation: backdrop-float 14s ease-in-out infinite alternate;
+}
+.collage-ring {
+  width: clamp(18rem, 32vw, 35rem);
+  aspect-ratio: 1;
+  right: -8%;
+  top: -8%;
+  border: clamp(2rem, 6vw, 6rem) solid #8b94d552;
+  border-radius: 50%;
+  box-shadow:
+    0 0 0 2px #30216b30,
+    inset 0 0 0 2px #30216b30;
+  animation: contour-breathe 17s ease-in-out infinite alternate-reverse;
+}
+.collage-flower {
+  width: clamp(12rem, 21vw, 24rem);
+  left: 49%;
+  top: 13%;
+  fill: #c9586045;
+  stroke: #30216b45;
+  stroke-width: 1;
+  animation: draft-turn 45s linear infinite;
+}
+.collage-flower circle {
+  fill: #ffdf63aa;
+}
+.collage-wave {
+  width: clamp(20rem, 45vw, 45rem);
+  left: 25%;
+  bottom: 0;
+  stroke: #30216b45;
+  stroke-width: 7;
+  stroke-linecap: round;
+  rotate: -8deg;
+  animation: backdrop-float 13s ease-in-out infinite alternate-reverse;
+}
+.collage-confetti {
+  inset: 0;
+  background-image:
+    radial-gradient(ellipse, #b02d3550 0 3px, transparent 4px),
+    radial-gradient(ellipse, #30216b40 0 3px, transparent 4px);
+  background-size:
+    170px 230px,
+    230px 170px;
+  background-position:
+    20px 90px,
+    90px 40px;
+  animation: confetti-drift 30s linear infinite;
+}
+
+@keyframes specimen-drift {
+  to {
+    transform: translate(3vw, -2vh) rotate(-4deg);
+  }
+}
+@keyframes backdrop-float {
+  to {
+    transform: translate(2vw, -3vh) rotate(8deg);
+  }
+}
+@keyframes baseline-drift {
+  to {
+    transform: translateY(-8vh);
+  }
+}
+@keyframes contour-breathe {
+  to {
+    transform: translate(-3vw, 3vh) rotate(16deg) scale(1.06);
+  }
+}
+@keyframes draft-scan {
+  to {
+    transform: translateY(65vh);
+  }
+}
+@keyframes draft-turn {
+  to {
+    transform: rotate(360deg);
+  }
+}
+@keyframes confetti-drift {
+  to {
+    transform: translateY(-60px);
+  }
+}
+
+@media (max-width: 47.99rem) {
+  .type-specimen {
+    font-size: 75vw;
+    bottom: 4%;
+  }
+  .type-ampersand {
+    top: 18%;
+    right: -5%;
+    font-size: 60vw;
+  }
+  .minimal-contours {
+    width: 150vw;
+    right: -80%;
+    top: 18%;
+  }
+  .minimal-wash {
+    width: 150vw;
+    top: -5%;
+    right: -70%;
+  }
+  .draft-grid {
+    background-size: 44px 44px;
+  }
+  .draft-orbit {
+    top: 7%;
+    right: -30%;
+  }
+  .collage-flower {
+    left: 52%;
+    top: 25%;
+  }
+  .collage-checks {
+    left: -20%;
+  }
+  .collage-wave {
+    left: 0;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .theme-backdrop .backdrop-motion {
+    animation: none !important;
+  }
+  .backdrop-scene {
+    translate: none;
+    transition: none;
+  }
+}
+@media (forced-colors: active) {
+  .theme-backdrop {
+    display: none;
+  }
+}

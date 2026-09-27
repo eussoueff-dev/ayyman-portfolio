@@ -23,13 +23,22 @@ export default function VisualBackdrop() {
   useEffect(() => {
     const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
     const updateRenderingMode = () => {
-      setShouldRenderWebGL(!reducedMotion.matches && browserSupportsWebGL());
+      setShouldRenderWebGL(
+        document.documentElement.dataset.theme === "experimentalism" &&
+          document.documentElement.dataset.motion !== "paused" &&
+          !reducedMotion.matches &&
+          browserSupportsWebGL(),
+      );
     };
 
     updateRenderingMode();
     reducedMotion.addEventListener("change", updateRenderingMode);
+    document.addEventListener("portfolio-theme-change", updateRenderingMode);
 
-    return () => reducedMotion.removeEventListener("change", updateRenderingMode);
+    return () => {
+      reducedMotion.removeEventListener("change", updateRenderingMode);
+      document.removeEventListener("portfolio-theme-change", updateRenderingMode);
+    };
   }, []);
 
   return (

@@ -1,0 +1,56 @@
+---
+import "../styles/theme-backdrops.css";
+---
+
+<div class="theme-backdrop" aria-hidden="true" inert>
+  <div class="backdrop-scene backdrop-scene--typography" data-backdrop="typography">
+    <div class="type-rules"></div>
+    <span class="type-specimen backdrop-motion">Aa</span>
+    <span class="type-ampersand backdrop-motion">&amp;</span>
+    <div class="type-baseline backdrop-motion"></div>
+  </div>
+
+  <div class="backdrop-scene backdrop-scene--minimalism" data-backdrop="minimalism">
+    <div class="minimal-wash backdrop-motion"></div>
+    <svg class="minimal-contours backdrop-motion" viewBox="0 0 800 800" fill="none">
+      {[0, 1, 2, 3, 4, 5, 6].map((index) => (
+        <ellipse
+          cx="400"
+          cy="400"
+          rx={140 + index * 36}
+          ry={210 + index * 26}
+          transform={`rotate(${index * 8} 400 400)`}
+        />
+      ))}
+    </svg>
+    <span class="minimal-satellite backdrop-motion"></span>
+  </div>
+
+  <div class="backdrop-scene backdrop-scene--brutalism" data-backdrop="brutalism">
+    <div class="draft-grid"></div>
+    <div class="draft-scan backdrop-motion"></div>
+    <svg class="draft-orbit backdrop-motion" viewBox="0 0 400 400" fill="none">
+      <path d="M40 40H360V360H40ZM80 80H320V320H80ZM120 120H280V280H120ZM0 200H400M200 0V400" />
+      <path d="M170 200H230M200 170V230" stroke-width="6" />
+    </svg>
+    <div class="draft-hatch backdrop-motion"></div>
+    <span class="draft-cross draft-cross--one">+</span>
+    <span class="draft-cross draft-cross--two">+</span>
+  </div>
+
+  <div class="backdrop-scene backdrop-scene--maximalism" data-backdrop="maximalism">
+    <div class="collage-checks backdrop-motion"></div>
+    <div class="collage-ring backdrop-motion"></div>
+    <svg class="collage-flower backdrop-motion" viewBox="0 0 200 200">
+      {[0, 60, 120].map((angle) => (
+        <ellipse cx="100" cy="100" rx="30" ry="96" transform={`rotate(${angle} 100 100)`} />
+      ))}
+      <circle cx="100" cy="100" r="23" />
+    </svg>
+    <svg class="collage-wave backdrop-motion" viewBox="0 0 500 150" fill="none">
+      <path d="M-20 100Q30-20 80 100T180 100T280 100T380 100T480 100T580 100" />
+      <path d="M-20 125Q30 5 80 125T180 125T280 125T380 125T480 125T580 125" />
+    </svg>
+    <div class="collage-confetti backdrop-motion"></div>
+  </div>
+</div>

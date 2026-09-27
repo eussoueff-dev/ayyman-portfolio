@@ -1,6 +1,7 @@
 ---
 import type { NavigationItem } from "../data/portfolio";
 import "../styles/navigation.css";
+import ThemeSwitcher from "./ThemeSwitcher.astro";
 
 interface Props {
   items: readonly NavigationItem[];
@@ -33,6 +34,8 @@ const firstName = name.split(" ", 1)[0] ?? name;
     <a class="nav-contact" href={email}>
       Let’s talk <span aria-hidden="true">↗</span>
     </a>
+
+    <ThemeSwitcher />
 
     <div class="nav-menu">
       <button

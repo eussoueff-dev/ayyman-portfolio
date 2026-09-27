@@ -1,0 +1,120 @@
+---
+const themes = [
+  {
+    id: "typography",
+    name: "Typography",
+    sample: "Aa",
+    description: "Words take the lead.",
+    number: "01",
+  },
+  {
+    id: "minimalism",
+    name: "Minimalism",
+    sample: "a.",
+    description: "Room to breathe.",
+    number: "02",
+  },
+  {
+    id: "brutalism",
+    name: "Brutalism",
+    sample: "RAW",
+    description: "Bold. Direct. Unfiltered.",
+    number: "03",
+  },
+  {
+    id: "experimentalism",
+    name: "Experimentalism",
+    sample: "↗",
+    description: "A little unexpected.",
+    number: "04",
+  },
+  {
+    id: "maximalism",
+    name: "Maximalism",
+    sample: "More!",
+    description: "More is a mood.",
+    number: "05",
+  },
+];
+---
+
+<div class="theme-switcher">
+  <button
+    class="theme-toggle"
+    type="button"
+    popovertarget="theme-picker"
+    aria-label="Change design theme"
+  >
+    <svg
+      viewBox="0 0 24 24"
+      width="19"
+      height="19"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="1.6"
+      aria-hidden="true"
+    >
+      <rect x="3" y="3" width="7" height="7" rx="1"></rect>
+      <circle cx="17.5" cy="6.5" r="3.5"></circle>
+      <path d="m6.5 14 4 7h-8zM14 14l7 7m0-7-7 7"></path>
+    </svg>
+    <span>
+      Theme
+      <span class="theme-toggle__current">
+        {" "}
+        / <span data-theme-name>Typography</span>
+      </span>
+    </span>
+  </button>
+  <div id="theme-picker" class="theme-picker" popover aria-labelledby="theme-picker-title">
+    <div class="theme-picker__heading">
+      <div>
+        <p class="theme-picker__eyebrow">Same person. A different perspective.</p>
+        <h2 id="theme-picker-title">Pick a design mood.</h2>
+      </div>
+      <button
+        type="button"
+        class="theme-close"
+        popovertarget="theme-picker"
+        popovertargetaction="hide"
+        aria-label="Close theme picker"
+      >
+        ×
+      </button>
+    </div>
+    <div class="theme-options" role="group" aria-label="Design themes">
+      {themes.map((theme) => (
+        <button
+          type="button"
+          class="theme-option"
+          data-theme-option={theme.id}
+          aria-pressed={theme.id === "typography"}
+          aria-label={theme.name}
+        >
+          <span class={`theme-sample theme-sample--${theme.id}`} aria-hidden="true">
+            <span>{theme.sample}</span>
+            <small>{theme.number}</small>
+          </span>
+          <span class="theme-option__name">
+            {theme.name}
+            <span class="theme-option__check" aria-hidden="true">
+              ↗
+            </span>
+          </span>
+          <span class="theme-option__description">{theme.description}</span>
+        </button>
+      ))}
+    </div>
+    <div class="theme-picker__footer">
+      <span>Try all five. Your choice stays with you.</span>
+      <button type="button" class="motion-toggle" aria-pressed="false">
+        Pause motion
+      </button>
+    </div>
+  </div>
+  <span class="sr-only" role="status" id="theme-status"></span>
+</div>
+
+<script>
+  import "../scripts/themes";
+</script>

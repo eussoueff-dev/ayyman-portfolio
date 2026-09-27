@@ -3,6 +3,9 @@ import { expect, test } from "@playwright/test";
 const backdropHydrationTimeout = 15_000;
 
 test.describe.configure({ mode: "serial" });
+test.beforeEach(async ({ page }) => {
+  await page.addInitScript(() => localStorage.setItem("portfolio-theme", "experimentalism"));
+});
 
 test("renders the exact Halftone Flow in a fixed full-viewport layer", async ({ page }) => {
   await page.goto("/", { waitUntil: "domcontentloaded" });

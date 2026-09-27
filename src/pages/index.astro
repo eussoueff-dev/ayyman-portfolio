@@ -23,12 +23,24 @@ const emailAddress = PORTFOLIO.links.email.replace("mailto:", "");
 
   <main id="main-content" tabindex="-1">
     <section class="hero page-container" id="home" aria-labelledby="hero-heading">
+      <div class="hero-edition">
+        <span>
+          Independent portfolio / <span data-theme-name>Typography</span>
+        </span>
+        <span>Code. Cloud. Curiosity.</span>
+      </div>
       <div class="hero__layout">
         <div class="hero__content glass-card" data-reveal="left">
           <p class="eyebrow">
             {PORTFOLIO.profile.location} · {PORTFOLIO.profile.studyStatus}
           </p>
-          <h1 id="hero-heading">{PORTFOLIO.profile.name}</h1>
+          <h1 id="hero-heading" aria-label={PORTFOLIO.profile.name}>
+            {PORTFOLIO.profile.name.split(" ").map((word) => (
+              <span class="name-word" aria-hidden="true">
+                {word}
+              </span>
+            ))}
+          </h1>
           <p class="hero__role">{PORTFOLIO.profile.title}</p>
           <p class="hero__tagline">{PORTFOLIO.profile.tagline}</p>
           <div class="hero__actions">
@@ -42,6 +54,20 @@ const emailAddress = PORTFOLIO.links.email.replace("mailto:", "");
         </div>
 
         <aside class="profile-panel" aria-label="Profile summary" data-reveal="right">
+          <button
+            class="design-stamp"
+            type="button"
+            aria-label="Remix the decorative accent"
+            title="Give it a spin"
+          >
+            <svg viewBox="0 0 100 100" aria-hidden="true">
+              <path
+                d="M50 0 58 29 75 7 72 35 93 25 79 44 100 50 79 58 93 75 70 70 75 93 58 78 50 100 42 78 25 93 30 70 7 75 22 58 0 50 22 42 7 25 30 30 25 7 42 22Z"
+                fill="currentColor"
+              />
+            </svg>
+            <span aria-hidden="true">↗</span>
+          </button>
           <div class="profile-panel__portrait-frame">
             <Image
               src={profilePicture}
@@ -69,6 +95,12 @@ const emailAddress = PORTFOLIO.links.email.replace("mailto:", "");
             ))}
           </dl>
         </aside>
+      </div>
+      <div class="hero-bottom">
+        <span>Building useful things, with care.</span>
+        <a href="#work">
+          Explore selected work <span aria-hidden="true">↓</span>
+        </a>
       </div>
     </section>
 
