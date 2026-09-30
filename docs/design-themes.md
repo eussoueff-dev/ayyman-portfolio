@@ -16,7 +16,9 @@ These are design references, not copied templates. No dependencies or external a
 
 ## Living backgrounds
 
-The four lighter themes now have original CSS/SVG backgrounds: outlined drifting letterforms and print rules (Typography), breathing contour ellipses and a soft sage wash (Minimalism), a drafting grid with a stepped scan and rotating construction squares (Brutalism), and a floating collage of petals, checks, ribbons, and confetti (Maximalism). Experimentalism retains its live ThreeUI Halftone Flow.
+The four lighter themes now have original CSS/SVG backgrounds: outlined drifting letterforms and print rules (Typography), refracted water-light patterns and a pointer-following translucent lens over a sage wash (Minimalism), a drafting grid with a lime glyph field revealed around the pointer and a stepped scan (Brutalism), and a floating collage of petals, checks, ribbons, and confetti (Maximalism). Experimentalism retains its live ThreeUI Halftone Flow.
+
+The 2026-10-01 Minimalism and Brutalism updates draw on Fedir Davydov's [Live Activity and Reveal Background studies](https://contra.com/p/3UWBOZlm-made-with-unicorn-studio). The public Unicorn Studio remix pages did not expose scene exports in this environment. These are original native SVG/CSS interpretations, not embedded Unicorn scenes or copied source. Minimalism layers displaced curved cells with slow opposing currents. Brutalism uses a repeating glyph tile and radial cursor mask. Touch devices retain ambient motion and a default focal point without requiring a cursor. Both use the existing shared pointer handler and motion preferences; no new rendering library is needed.
 
 Background research on 2026-09-28:
 
@@ -29,4 +31,6 @@ These references inform the artwork; no third-party source or assets were copied
 
 ## Verification
 
-`npm run test:e2e -- tests/themes.spec.ts` checks all five styles at 1440, 390, and 320 pixels, saves screenshots under the ignored test-results directory, and checks keyboard operation, persistence, case studies, reduced motion, and unavailable storage.
+`npm run test:e2e` checks all five styles at 1440, 1024, 768, 390, and 320 pixels, saves screenshots under the ignored test-results directory, and checks keyboard operation, persistence, case studies, reduced motion, and unavailable storage. `tests/layout-review.spec.ts` additionally captures every Minimalism homepage and case-study section at those widths, checks text overflow and card padding, and detects technology-card overlaps.
+
+For visual changes, inspect the rendered results below the hero as well as the first viewport, including tablet widths and both case studies. Passing automated checks alone is not a visual review. Minimalism uses content-sized project cards with inset padding, a restrained heading scale, and a hero name sized to its column.

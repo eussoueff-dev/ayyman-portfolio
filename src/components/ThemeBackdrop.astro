@@ -12,27 +12,87 @@ import "../styles/theme-backdrops.css";
 
   <div class="backdrop-scene backdrop-scene--minimalism" data-backdrop="minimalism">
     <div class="minimal-wash backdrop-motion"></div>
-    <svg class="minimal-contours backdrop-motion" viewBox="0 0 800 800" fill="none">
-      {[0, 1, 2, 3, 4, 5, 6].map((index) => (
-        <ellipse
-          cx="400"
-          cy="400"
-          rx={140 + index * 36}
-          ry={210 + index * 26}
-          transform={`rotate(${index * 8} 400 400)`}
+    <svg class="minimal-water" viewBox="0 0 1000 1000" fill="none">
+      <defs>
+        <filter id="water-refraction" x="-20%" y="-20%" width="140%" height="140%">
+          <feTurbulence
+            type="fractalNoise"
+            baseFrequency="0.009"
+            numOctaves="2"
+            seed="8"
+            result="water"
+          />
+          <feDisplacementMap
+            in="SourceGraphic"
+            in2="water"
+            scale="65"
+            xChannelSelector="R"
+            yChannelSelector="G"
+          />
+        </filter>
+        <pattern id="water-cells" width="240" height="240" patternUnits="userSpaceOnUse">
+          <path d="M-30 60Q60-40 120 60T270 60M-30 180Q60 80 120 180T270 180M60-30Q-40 60 60 120T60 270M180-30Q80 60 180 120T180 270" />
+        </pattern>
+      </defs>
+      <g filter="url(#water-refraction)">
+        <rect
+          class="water-current backdrop-motion"
+          x="-100"
+          y="-100"
+          width="1200"
+          height="1200"
+          fill="url(#water-cells)"
         />
-      ))}
+        <rect
+          class="water-current water-current--echo backdrop-motion"
+          x="-100"
+          y="-100"
+          width="1200"
+          height="1200"
+          fill="url(#water-cells)"
+        />
+      </g>
     </svg>
-    <span class="minimal-satellite backdrop-motion"></span>
+    <div class="minimal-lens"></div>
   </div>
 
   <div class="backdrop-scene backdrop-scene--brutalism" data-backdrop="brutalism">
     <div class="draft-grid"></div>
-    <div class="draft-scan backdrop-motion"></div>
-    <svg class="draft-orbit backdrop-motion" viewBox="0 0 400 400" fill="none">
-      <path d="M40 40H360V360H40ZM80 80H320V320H80ZM120 120H280V280H120ZM0 200H400M200 0V400" />
-      <path d="M170 200H230M200 170V230" stroke-width="6" />
+    <svg class="draft-glyphs" width="100%" height="100%">
+      <defs>
+        <pattern id="draft-glyphs" width="168" height="168" patternUnits="userSpaceOnUse">
+          <g font-family="monospace" font-size="17" text-anchor="middle">
+            {[
+              "+ · / : × .",
+              ": ▪ + . / :",
+              "× : . + ▪ /",
+              ". / × : . +",
+              "+ . : ▪ / ×",
+              "/ × + . : ▪",
+            ].map((row, y) => (
+              <text y={y * 28 + 20}>
+                {row.split(" ").map((glyph, x) => (
+                  <tspan x={x * 28 + 14}>{glyph}</tspan>
+                ))}
+              </text>
+            ))}
+          </g>
+        </pattern>
+      </defs>
+      <rect width="100%" height="100%" fill="url(#draft-glyphs)" opacity="0.09" />
+      <g class="glyph-reveal">
+        <rect width="100%" height="100%" fill="#d8fa36" opacity="0.65" />
+        <rect
+          class="glyph-current backdrop-motion"
+          x="-28"
+          y="-28"
+          width="110%"
+          height="110%"
+          fill="url(#draft-glyphs)"
+        />
+      </g>
     </svg>
+    <div class="draft-scan backdrop-motion"></div>
     <div class="draft-hatch backdrop-motion"></div>
     <span class="draft-cross draft-cross--one">+</span>
     <span class="draft-cross draft-cross--two">+</span>

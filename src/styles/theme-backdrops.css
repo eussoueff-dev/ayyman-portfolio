@@ -73,36 +73,50 @@ html[data-theme]:is([data-theme="typography"], [data-theme="minimalism"]) .hero_
   background: #b53d2670;
 }
 
-/* Soft daylight and slow contour motion keep the minimal theme spacious. */
+/* Original water-light study inspired by Unicorn Studio's Live Activity. */
 .minimal-wash {
   width: min(85vw, 80rem);
   aspect-ratio: 1;
   top: -35%;
   right: -18%;
-  background: radial-gradient(ellipse, #b2c7b34d, #dfdfbf26 45%, transparent 70%);
+  background: radial-gradient(ellipse, #a8c8b980, #dbe8cc55 45%, transparent 70%);
   animation: backdrop-float 22s ease-in-out infinite alternate;
 }
-.minimal-contours {
-  width: min(90vw, 85rem);
+.minimal-water {
+  width: min(95vw, 90rem);
   height: auto;
-  right: -20%;
-  top: 5%;
-  stroke: #6b8d7326;
-  stroke-width: 1;
-  animation: contour-breathe 26s ease-in-out infinite alternate;
+  right: -22%;
+  top: -12%;
+  stroke: #719780;
+  stroke-width: 2;
+  opacity: 0.26;
+  mask-image: radial-gradient(ellipse, black 15%, transparent 68%);
 }
-.minimal-satellite {
-  width: 0.65rem;
+.water-current {
+  transform-origin: center;
+  animation: water-drift 23s ease-in-out infinite alternate;
+}
+.water-current--echo {
+  stroke: white;
+  stroke-width: 5;
+  animation-duration: 31s;
+  animation-direction: alternate-reverse;
+}
+.minimal-lens {
+  width: clamp(10rem, 22vw, 23rem);
   aspect-ratio: 1;
-  top: 78%;
-  left: 18%;
-  border: 1px solid #79978266;
+  top: var(--light-y, 42%);
+  left: var(--light-x, 76%);
+  translate: -50% -50%;
+  background: radial-gradient(circle at 35% 30%, #ffffff66, #d7e7db1a 55%, #84aa9520);
+  border: 1px solid #ffffff99;
   border-radius: 50%;
-  box-shadow: 0 0 0 1rem #79978208;
-  animation: backdrop-float 16s ease-in-out infinite alternate-reverse;
+  box-shadow:
+    inset 0 0 24px #ffffff99,
+    0 8px 35px #64866e0a;
 }
 
-/* Drafting film, registration marks, and mechanical rather than fluid motion. */
+/* Original glyph reveal inspired by Unicorn Studio's Reveal Background. */
 .draft-grid {
   inset: 0;
   background-image:
@@ -112,18 +126,30 @@ html[data-theme]:is([data-theme="typography"], [data-theme="minimalism"]) .hero_
 }
 .draft-scan {
   inset: 16% 0 auto;
-  height: 3rem;
+  height: 1rem;
   border-block: 1px solid #14141425;
   background: #d8fa3638;
   animation: draft-scan 18s steps(18) infinite alternate;
 }
-.draft-orbit {
-  width: clamp(16rem, 32vw, 34rem);
-  right: 18%;
-  top: -6%;
-  stroke: #14141424;
-  stroke-width: 2;
-  animation: draft-turn 36s steps(12) infinite;
+.draft-glyphs {
+  inset: 0;
+  fill: #141414;
+}
+.glyph-reveal {
+  mask-image: radial-gradient(
+    circle 260px at var(--light-x, 76%) var(--light-y, 42%),
+    black 15%,
+    transparent 100%
+  );
+}
+.glyph-current {
+  opacity: 0.45;
+  animation: glyph-shift 4s steps(4) infinite alternate;
+}
+/* Keep the cursor response exact while the artwork inside continues to move. */
+.backdrop-scene--minimalism,
+.backdrop-scene--brutalism {
+  translate: none;
 }
 .draft-hatch {
   width: clamp(12rem, 25vw, 25rem);
@@ -210,6 +236,19 @@ html[data-theme]:is([data-theme="typography"], [data-theme="minimalism"]) .hero_
     transform: translate(3vw, -2vh) rotate(-4deg);
   }
 }
+@keyframes water-drift {
+  from {
+    transform: translate(-18px, 12px) rotate(-7deg) scale(1.04);
+  }
+  to {
+    transform: translate(34px, -25px) rotate(9deg) scale(0.96);
+  }
+}
+@keyframes glyph-shift {
+  to {
+    transform: translate(28px, 28px);
+  }
+}
 @keyframes backdrop-float {
   to {
     transform: translate(2vw, -3vh) rotate(8deg);
@@ -251,10 +290,10 @@ html[data-theme]:is([data-theme="typography"], [data-theme="minimalism"]) .hero_
     right: -5%;
     font-size: 60vw;
   }
-  .minimal-contours {
+  .minimal-water {
     width: 150vw;
-    right: -80%;
-    top: 18%;
+    right: -65%;
+    top: 5%;
   }
   .minimal-wash {
     width: 150vw;
@@ -263,10 +302,6 @@ html[data-theme]:is([data-theme="typography"], [data-theme="minimalism"]) .hero_
   }
   .draft-grid {
     background-size: 44px 44px;
-  }
-  .draft-orbit {
-    top: 7%;
-    right: -30%;
   }
   .collage-flower {
     left: 52%;

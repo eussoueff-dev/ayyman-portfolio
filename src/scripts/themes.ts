@@ -106,6 +106,9 @@ document.addEventListener(
       if (reducedMotion.matches || root.dataset.motion === "paused") return;
       backdrop?.style.setProperty("--backdrop-x", `${(event.clientX / innerWidth - 0.5) * 24}px`);
       backdrop?.style.setProperty("--backdrop-y", `${(event.clientY / innerHeight - 0.5) * 24}px`);
+      // The scenes extend 2rem past the viewport to keep their moving edges out of view.
+      backdrop?.style.setProperty("--light-x", `calc(${event.clientX}px + 2rem)`);
+      backdrop?.style.setProperty("--light-y", `calc(${event.clientY}px + 2rem)`);
     });
   },
   { passive: true },

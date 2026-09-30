@@ -73,7 +73,7 @@ test("stays usable within narrow and short mobile viewports", async ({ page }) =
       .map((element) => element.className || element.tagName),
   }));
 
-  expect(dimensions.content).toBe(dimensions.viewport);
+  expect(dimensions.content, JSON.stringify(dimensions)).toBe(dimensions.viewport);
   expect(dimensions.overflowingElements).toEqual([]);
 
   await page.keyboard.press("Escape");

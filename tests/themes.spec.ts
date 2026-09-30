@@ -18,7 +18,7 @@ test("five design themes work on desktop and mobile, persist, and support keyboa
   const picker = page.locator("#theme-picker");
   const appearances = new Set<string>();
 
-  for (const width of [1440, 390, 320]) {
+  for (const width of [1440, 1024, 768, 390, 320]) {
     await page.setViewportSize({ width, height: 960 });
     for (const theme of themes) {
       await toggle.click();
@@ -65,7 +65,9 @@ test("five design themes work on desktop and mobile, persist, and support keyboa
         };
       });
       await page.screenshot({ path: testInfo.outputPath(`${theme}-${width}.png`) });
-      expect(layout.width).toBe(layout.viewport);
+      expect(layout.width, `${theme} at ${width}px: ${JSON.stringify(layout)}`).toBe(
+        layout.viewport,
+      );
       expect(layout.overflowing, `${theme} at ${width}px`).toEqual([]);
       if (width === 1440) appearances.add(layout.appearance);
       if (width === 1440 && ["Typography", "Maximalism"].includes(theme)) {
@@ -151,7 +153,9 @@ test("living backgrounds animate only the selected scene and obey pointer, pause
     const scene = page.locator(`[data-backdrop="${theme.toLowerCase()}"]`);
     await expect(scene).toBeVisible();
     await expect(page.locator(".backdrop-scene:visible")).toHaveCount(1);
-    const first = scene.locator(".backdrop-motion").first();
+    const first = scene
+      .locator(theme === "Minimalism" ? ".water-current" : ".backdrop-motion")
+      .first();
     const transform = await first.evaluate((element) => getComputedStyle(element).transform);
     await expect
       .poll(() => first.evaluate((element) => getComputedStyle(element).transform))
@@ -164,6 +168,32 @@ test("living backgrounds animate only the selected scene and obey pointer, pause
         ),
       )
       .not.toBe("");
+    if (["Minimalism", "Brutalism"].includes(theme)) {
+      const effect = scene.locator(theme === "Minimalism" ? ".minimal-lens" : ".glyph-reveal");
+      const property = theme === "Minimalism" ? "left" : "mask-image";
+      const before = await effect.evaluate(
+        (element, name) => getComputedStyle(element).getPropertyValue(name),
+        property,
+      );
+      await page.mouse.move(1200, 300);
+      await expect
+        .poll(() =>
+          effect.evaluate(
+            (element, name) => getComputedStyle(element).getPropertyValue(name),
+            property,
+          ),
+        )
+        .not.toBe(before);
+      await expect(background).toHaveCSS("--light-x", "calc(1200px + 2rem)");
+      const mousePosition = await background.getAttribute("style");
+      await page
+        .locator("body")
+        .dispatchEvent("pointermove", { pointerType: "touch", clientX: 20, clientY: 20 });
+      await page.waitForTimeout(50);
+      expect(await background.getAttribute("style")).toBe(mousePosition);
+      await page.mouse.move(880, 450);
+      await page.screenshot({ path: testInfo.outputPath(`cursor-${theme}.png`) });
+    }
     await page.getByRole("button", { name: "Change design theme" }).click();
     await page.getByRole("button", { name: "Pause motion" }).click();
     await page.keyboard.press("Escape");
@@ -179,6 +209,10 @@ test("living backgrounds animate only the selected scene and obey pointer, pause
     await page.emulateMedia({ reducedMotion: "reduce" });
     await expect(first).toHaveCSS("animation-name", "none");
     await expect(scene).toHaveCSS("translate", "none");
+    const reducedPointer = await background.getAttribute("style");
+    await page.mouse.move(400, 400);
+    await page.waitForTimeout(50);
+    expect(await background.getAttribute("style")).toBe(reducedPointer);
     await page.emulateMedia({ reducedMotion: "no-preference" });
     await page.getByRole("button", { name: "Change design theme" }).click();
     await page.getByRole("button", { name: "Resume motion" }).click();
