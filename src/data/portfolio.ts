@@ -2,7 +2,7 @@ import { CASE_STUDIES, type ProjectPreview } from "./case-studies";
 
 export interface NavigationItem {
   label: string;
-  href: `/#${string}`;
+  href: `/${string}`;
 }
 
 interface ProfileFact {
@@ -68,6 +68,7 @@ export const NAVIGATION = [
   { label: "About", href: "/#about" },
   { label: "Journey", href: "/#journey" },
   { label: "Now", href: "/#now" },
+  { label: "Resume / CV", href: "/resume/" },
 ] as const satisfies readonly NavigationItem[];
 
 export const PORTFOLIO = {
@@ -168,5 +169,5 @@ export const PORTFOLIO = {
         "Build a clearer GitHub history through useful projects and consistent documentation.",
     },
   ],
-  resumeUrl: null,
+  resumeUrl: "/resume/",
 } as const satisfies PortfolioData;
