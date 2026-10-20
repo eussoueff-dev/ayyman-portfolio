@@ -269,7 +269,7 @@
   }
 }
 
-@media (min-width: 50rem) {
+@media (min-width: 64rem) {
   .site-nav {
     gap: 1rem;
   }
