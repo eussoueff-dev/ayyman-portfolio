@@ -1,0 +1,136 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import SiteNav from "../components/SiteNav.astro";
+import { NAVIGATION, PORTFOLIO } from "../data/portfolio";
+---
+
+<BaseLayout
+  title="Resume / CV — Ayyman Eussoueff"
+  description="Ayyman Eussoueff's resume: software engineering, full-stack development, cloud and solutions engineering."
+>
+  <SiteNav items={NAVIGATION} email={PORTFOLIO.links.email} name={PORTFOLIO.profile.name} initials={PORTFOLIO.profile.initials} />
+  <main id="main-content" class="resume-main" tabindex="-1">
+    <div class="resume-controls">
+      <a href="/" class="resume-back">← Back to portfolio</a>
+      <button id="print-resume" type="button" class="resume-print">Print / Save as PDF ↗</button>
+    </div>
+    <article class="resume-sheet" aria-labelledby="resume-name">
+      <header class="resume-heading">
+        <p class="resume-kicker">SOFTWARE ENGINEERING · FULL-STACK · CLOUD & SOLUTIONS ENGINEERING</p>
+        <h1 id="resume-name">AYYMAN EUSSOUEFF</h1>
+        <p class="resume-contact">
+          Kuala Lumpur, Malaysia <span aria-hidden="true">·</span>
+          <a href="tel:+60136834955">+60 13-683 4955</a> <span aria-hidden="true">·</span>
+          <a href="mailto:eussoueff@gmail.com">eussoueff@gmail.com</a>
+        </p>
+        <p class="resume-contact">
+          <a href="https://github.com/eussoueff-dev" target="_blank" rel="noreferrer">GitHub</a>
+          <span aria-hidden="true">·</span>
+          <a href="https://www.linkedin.com/in/ayyman-eussoueff-ab446b2b8/" target="_blank" rel="noreferrer">LinkedIn</a>
+          <span aria-hidden="true">·</span>
+          <a href="https://ayyman.my">ayyman.my</a>
+        </p>
+      </header>
+      <section>
+        <h2>Profile</h2>
+        <p>Diploma in Information Technology student at Politeknik Ungku Omar (CGPA: 3.61) with hands-on experience in full-stack web applications, Firebase cloud services, and systems analysis. Co-developing an award-winning management platform for a real construction SME, translating business needs into public-facing and internal workflows. Seeking an internship in software engineering, cloud engineering, or solutions engineering.</p>
+      </section>
+      <section>
+        <h2>Technical skills</h2>
+        <p><strong>Programming:</strong> Java, Python, C++, JavaScript, Kotlin, SQL</p>
+        <p><strong>Web development:</strong> HTML5, CSS3, JavaScript; React / Vue.js</p>
+        <p><strong>Cloud &amp; backend:</strong> Firebase Authentication, Cloud Firestore, Cloud Functions, Firebase Storage, Firebase Hosting</p>
+        <p><strong>Engineering &amp; design:</strong> Git, GitHub, Agile/Scrum, Systems Analysis &amp; Design, Figma</p>
+        <p><strong>Additional exposure:</strong> Mobile development, Business Intelligence, server administration</p>
+      </section>
+      <section>
+        <h2>Selected projects</h2>
+        <div class="resume-entry">
+          <h3>AutoConstruct <span>Cloud-Based Construction Project Management</span></h3>
+          <p class="resume-meta">Final Year Project · Team of 3 · 2026</p>
+          <ul>
+            <li>Co-developing a web platform for AB BIZ ONE, a construction and renovation SME, to streamline project, client, and quotation workflows.</li>
+            <li>Designed around a public services/gallery/quotation portal and internal modules for project tracking, workforce scheduling, inventory alerts, CRM, and PDF quotations/invoices.</li>
+            <li>Worked with Firebase Authentication, Firestore, Storage, Cloud Functions, and Hosting; collaborated through Git/GitHub and Agile sprint cycles.</li>
+          </ul>
+        </div>
+        <div class="resume-entry">
+          <h3>Miss-Compete <span>Competition Discovery Mobile App</span></h3>
+          <p class="resume-meta">Personal / academic project · MVP testing</p>
+          <ul><li>Developing a mobile MVP that centralizes college competition announcements and helps students discover and track opportunities.</li></ul>
+        </div>
+      </section>
+      <section>
+        <h2>Awards &amp; leadership</h2>
+        <ul>
+          <li><strong>APEX 2026</strong> — Champion, Social Sciences Category, Applied Project Excellence Exhibition (AutoConstruct).</li>
+          <li><strong>ICE II JTMK 2026</strong> — 1st Place, Software &amp; Application Development Track (AutoConstruct).</li>
+          <li><strong>SIC-16 2026</strong> — Gold Medal, Category B: Novice Innovation, UiTM Perlis (AutoConstruct).</li>
+          <li>Co-organized Kiro AI Hackathon @ PUO and krackeddevs Build Day: Build &amp; Ship; supported participant coordination, briefings, and hands-on building activities.</li>
+        </ul>
+      </section>
+      <section>
+        <h2>Education</h2>
+        <h3>Politeknik Ungku Omar (PUO) <span>Diploma in Information Technology</span></h3>
+        <p class="resume-meta">2024–Present · CGPA: 3.61</p>
+        <p>Relevant coursework: Cloud Computing, Mobile Application Development, Web Development, Server Administration, Business Intelligence, Systems Analysis &amp; Design.</p>
+      </section>
+      <section>
+        <h2>Experience</h2>
+        <h3>Nando's TRX <span>Part-Time Server</span></h3>
+        <p class="resume-meta">Kuala Lumpur · 5 months</p>
+        <p>Delivered customer service in a fast-paced environment, maintaining order accuracy and collaborating with front-of-house colleagues while balancing academic responsibilities.</p>
+      </section>
+      <section>
+        <h2>Certifications</h2>
+        <p><strong>OPSWAT Academy</strong> — Introduction to Critical Infrastructure Protection (Aug 2026–Jul 2027).</p>
+        <p><strong>ICDL Asia</strong> — Online Essentials (AI Essentials), Spreadsheets, Blockchain 1.0.</p>
+      </section>
+    </article>
+    <p class="resume-bottom-note">For a copy, use “Print / Save as PDF” and choose “Save as PDF” in your browser.</p>
+  </main>
+</BaseLayout>
+<script>
+  document.getElementById("print-resume")?.addEventListener("click", () => window.print());
+</script>
+<style>
+  .resume-main{position:relative;z-index:1;max-width:68rem;margin:0 auto;padding:7.5rem 1.15rem 5rem}
+  .resume-controls{display:flex;align-items:center;justify-content:space-between;gap:1rem;margin:0 0 1.4rem;flex-wrap:wrap}
+  .resume-back,.resume-print{display:inline-flex;align-items:center;justify-content:center;padding:.75rem 1.1rem;border:1px solid var(--color-line-strong);border-radius:99px;color:var(--color-ink);background:rgba(255,255,255,.07);font:inherit;font-size:.9rem;font-weight:700;text-decoration:none;cursor:pointer}
+  .resume-print{color:#21100a;background:#fff3e9}
+  .resume-sheet{color:#20252b;background:#fff;border-radius:1.15rem;padding:clamp(1.35rem,5vw,3.6rem);box-shadow:0 1.5rem 5rem rgba(0,0,0,.22);font-family:Arial,Helvetica,sans-serif;font-size:.89rem;line-height:1.48}
+  .resume-heading{padding-bottom:1rem;border-bottom:2px solid #20252b}
+  .resume-kicker{margin:0 0 .45rem;color:#44505b;font-size:.66rem;font-weight:700;letter-spacing:.12em}
+  .resume-heading h1{margin:0 0 .6rem;color:#161b20;font-size:clamp(1.65rem,3.7vw,2.75rem);font-weight:800;line-height:1.12;letter-spacing:-.035em}
+  .resume-contact{display:flex;align-items:center;flex-wrap:wrap;gap:.45rem;margin:.2rem 0;font-size:.78rem}
+  .resume-sheet a{color:#12486b;text-underline-offset:2px}
+  .resume-sheet section{margin-top:1.1rem}
+  .resume-sheet h2{margin:0 0 .48rem;padding-bottom:.26rem;border-bottom:1px solid #d5dce1;color:#16232c;font-size:.81rem;font-weight:800;letter-spacing:.095em;text-transform:uppercase}
+  .resume-sheet h3{display:flex;flex-wrap:wrap;gap:.3rem .65rem;margin:.55rem 0 0;color:#19222a;font-size:.94rem;line-height:1.35}
+  .resume-sheet h3 span{color:#49545c;font-weight:500}
+  .resume-sheet p{margin:.27rem 0}
+  .resume-sheet strong{font-weight:750}
+  .resume-meta{color:#56616b;font-size:.79rem}
+  .resume-entry+.resume-entry{margin-top:.8rem}
+  .resume-sheet ul{margin:.28rem 0 .5rem;padding-left:1.25rem}
+  .resume-sheet li{padding-left:.08rem;margin:.16rem 0}
+  .resume-bottom-note{margin:1.2rem 0 0;text-align:center;font-size:.85rem;color:var(--color-muted)}
+  @media print{
+    @page{size:A4;margin:13mm 14mm}
+    html,body{background:white!important}
+    .site-header,.static-backdrop,.resume-controls,.resume-bottom-note{display:none!important}
+    .resume-main{max-width:none;margin:0;padding:0}
+    .resume-sheet{border:0;border-radius:0;box-shadow:none;padding:0;font-size:8.5pt;line-height:1.33}
+    .resume-heading{padding-bottom:.5rem}
+    .resume-heading h1{font-size:21pt}
+    .resume-kicker{font-size:7pt}
+    .resume-sheet section{margin-top:.5rem;break-inside:avoid}
+    .resume-sheet h2{margin-bottom:.25rem;font-size:8pt}
+    .resume-sheet h3{margin-top:.25rem;font-size:9pt}
+    .resume-sheet p{margin:.12rem 0}
+    .resume-sheet ul{margin:.14rem 0 .28rem}
+    .resume-sheet li{margin:.1rem 0}
+    .resume-contact,.resume-meta{font-size:7.5pt}
+    .resume-sheet a{color:#20252b;text-decoration:none}
+  }
+</style>
