@@ -62,12 +62,11 @@ interface PortfolioData {
 }
 
 export const NAVIGATION = [
-  { label: "Expertise", href: "/#expertise" },
-  { label: "Stack", href: "/#stack" },
   { label: "Work", href: "/#work" },
+  { label: "Expertise", href: "/#expertise" },
   { label: "About", href: "/#about" },
-  { label: "Journey", href: "/#journey" },
-  { label: "Now", href: "/#now" },
+  { label: "Awards", href: "/#awards" },
+  { label: "Résumé", href: "/#resume" },
 ] as const satisfies readonly NavigationItem[];
 
 export const PORTFOLIO = {
@@ -134,7 +133,7 @@ export const PORTFOLIO = {
   ],
   experience: [],
   certifications: [],
-  achievements: [],
+  achievements: [] as readonly TimelineEntry[],
   community: [],
   interests: [],
   now: [

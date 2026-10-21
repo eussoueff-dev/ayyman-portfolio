@@ -1,81 +1,36 @@
 import { expect, test } from "@playwright/test";
 
-const backdropHydrationTimeout = 15_000;
-
-test.describe.configure({ mode: "serial" });
-test.beforeEach(async ({ page }) => {
-  await page.addInitScript(() => localStorage.setItem("portfolio-theme", "experimentalism"));
+test("content remains readable without JavaScript", async ({ browser }) => {
+  const context = await browser.newContext({ javaScriptEnabled: false });
+  const page = await context.newPage();
+  await page.goto("/");
+  await expect(page.getByRole("heading", { name: "Ayyman Eussoueff", level: 1 })).toBeVisible();
+  await expect(page.locator("#work")).toContainText("AutoConstruct");
+  await expect(page.getByRole("link", { name: "Email Ayyman" })).toHaveAttribute(
+    "href",
+    "mailto:eussoueff@gmail.com",
+  );
+  await page.getByRole("link", { name: "Read AutoConstruct case study" }).click();
+  await expect(page.locator("#case-title")).toHaveText("AutoConstruct");
+  await context.close();
 });
 
-test("renders the exact Halftone Flow in a fixed full-viewport layer", async ({ page }) => {
-  await page.goto("/", { waitUntil: "domcontentloaded" });
-
-  const backdrop = page.getByTestId("halftone-backdrop");
-  await expect(backdrop).toHaveAttribute("data-rendering", "webgl", {
-    timeout: backdropHydrationTimeout,
-  });
-  await expect(backdrop.locator('iframe[title="Nexus unified halftone flow"]')).toBeVisible({
-    timeout: backdropHydrationTimeout,
-  });
-
-  const frame = page.frameLocator('iframe[title="Nexus unified halftone flow"]');
-  const canvas = frame.locator("#glcanvas");
-  await expect(frame.locator("body")).toHaveAttribute("data-threeui-ready", "", {
-    timeout: backdropHydrationTimeout,
-  });
-  await expect(canvas).toBeVisible({ timeout: backdropHydrationTimeout });
-  await expect(backdrop.locator(".visual-backdrop__veil")).toHaveCount(0);
-  await expect
-    .poll(
-      () =>
-        canvas.evaluate((element) => Boolean((element as HTMLCanvasElement).getContext("webgl"))),
-      { timeout: backdropHydrationTimeout },
-    )
-    .toBe(true);
-
-  const canvasDimensions = await canvas.evaluate((element) => ({
-    width: (element as HTMLCanvasElement).width,
-    height: (element as HTMLCanvasElement).height,
-  }));
-  expect(canvasDimensions.width).toBeGreaterThan(0);
-  expect(canvasDimensions.height).toBeGreaterThan(0);
-
-  const firstFrame = await canvas.screenshot();
-  await page.waitForTimeout(500);
-  const secondFrame = await canvas.screenshot();
-  expect(secondFrame.equals(firstFrame)).toBe(false);
-
-  const placement = await backdrop.evaluate((element) => {
-    const bounds = element.getBoundingClientRect();
-    return {
-      position: getComputedStyle(element).position,
-      top: Math.round(bounds.top),
-      left: Math.round(bounds.left),
-      width: Math.round(bounds.width),
-      height: Math.round(bounds.height),
-      viewportWidth: window.innerWidth,
-      viewportHeight: window.innerHeight,
-    };
-  });
-
-  expect(placement).toEqual({
-    position: "fixed",
-    top: 0,
-    left: 0,
-    width: placement.viewportWidth,
-    height: placement.viewportHeight,
-    viewportWidth: placement.viewportWidth,
-    viewportHeight: placement.viewportHeight,
-  });
-});
-
-test("keeps a static wrapper-level fallback for reduced motion", async ({ page }) => {
+test("respects reduced motion, pause, and keyboard skip navigation", async ({ page }) => {
   await page.emulateMedia({ reducedMotion: "reduce" });
-  await page.goto("/", { waitUntil: "domcontentloaded" });
-
-  const backdrop = page.getByTestId("halftone-backdrop");
-  await expect(backdrop).toHaveAttribute("data-rendering", "static", {
-    timeout: backdropHydrationTimeout,
-  });
-  await expect(backdrop.locator("iframe")).toHaveCount(0);
+  await page.goto("/");
+  await expect(page.locator("main h1")).toBeVisible();
+  await page.keyboard.press("Tab");
+  await expect(page.getByRole("link", { name: "Skip to content" })).toBeFocused();
+  await page.keyboard.press("Enter");
+  await expect(page.locator("main")).toBeFocused();
+  await expect(page.locator("html")).toHaveCSS("scroll-behavior", "auto");
+  await expect(page.locator("iframe, canvas")).toHaveCount(0);
+  await page.getByRole("button", { name: "Change design theme" }).click();
+  await expect(page.getByRole("button", { name: "Reduced motion enabled" })).toBeDisabled();
+  await page.emulateMedia({ reducedMotion: "no-preference" });
+  await page.getByRole("button", { name: "Pause motion" }).click();
+  await page.keyboard.press("Escape");
+  await page.reload();
+  await expect(page.locator("html")).toHaveAttribute("data-motion", "paused");
+  await expect(page.locator("html")).toHaveCSS("scroll-behavior", "auto");
 });

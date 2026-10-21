@@ -1,8 +1,8 @@
 import { expect, test } from "@playwright/test";
 
 const expectedSections = [
-  { id: "expertise", heading: "Three connected disciplines." },
-  { id: "work", heading: "Building in public, one real project at a time." },
+  { id: "expertise", heading: "The whole system matters." },
+  { id: "work", heading: "From interface to infrastructure." },
   { id: "about", heading: "Curious about the whole system." },
   { id: "journey", heading: "Learning with direction." },
   { id: "now", heading: "What I am focused on now." },

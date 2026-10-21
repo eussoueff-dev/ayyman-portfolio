@@ -1,5 +1,7 @@
 # ThreeUI Halftone Flow provenance
 
+Historical integration record: the 2026-10-21 editorial redesign removed the shader, brand-orb renderers, and their wrappers from the site. The package and license notices remain in the repository. The details below describe the previous implementation, not the current rendered portfolio.
+
 The portfolio uses the public ThreeUI Community component described below without recreating or modifying its authored shader source.
 
 - Registered source: <https://threeui.com/source-code/halftone-flow.json>
