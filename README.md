@@ -24,3 +24,15 @@ npm run build
 ```
 
 No secrets belong in this repository. Local `.env` files are ignored by Git.
+
+## Résumé and PDF
+
+The full résumé is at `/resume/`. Its **Download PDF** link serves the checked-in A4 document at `public/ayyman-eussoueff-resume.pdf`; **Print / Save as PDF** uses the browser's print dialog.
+
+After editing `src/pages/resume.astro` or its print styles, regenerate the PDF with:
+
+```powershell
+npm run resume:pdf
+```
+
+This builds the site and uses the existing Playwright dependency with locally installed Chrome to render the résumé's print stylesheet. No server or external requests are needed. The output is copied to both `public/` and `dist/`. Review it and commit the updated PDF with the page changes. Normal builds and hosting need no browser: they copy the committed PDF as a static asset.

@@ -22,7 +22,7 @@ describe("portfolio content", () => {
   it("uses unique, valid homepage navigation anchors", () => {
     const hrefs = NAVIGATION.map(({ href }) => href);
     expect(new Set(hrefs).size).toBe(hrefs.length);
-    expect(hrefs.every((href) => /^\/#?[a-z][a-z-]*$/.test(href))).toBe(true);
+    expect(hrefs.every((href) => /^\/(?:#[a-z][a-z-]*|[a-z][a-z-]*\/)$/.test(href))).toBe(true);
   });
 
   it("does not fabricate content that still needs supporting material", () => {
@@ -41,9 +41,14 @@ describe("portfolio content", () => {
     expect(PORTFOLIO.featuredProjects).toEqual(CASE_STUDIES);
     expect(PORTFOLIO.experience).toEqual([]);
     expect(PORTFOLIO.certifications).toEqual([]);
-    expect(PORTFOLIO.achievements).toEqual([]);
+    expect(PORTFOLIO.achievements.map(({ organization }) => organization)).toEqual([
+      "APEX 2026 · Applied Project Excellence Exhibition",
+      "ICE II JTMK 2026",
+      "SIC-16 2026 · UiTM Perlis",
+    ]);
     expect(PORTFOLIO.community).toEqual([]);
     expect(PORTFOLIO.interests).toEqual([]);
-    expect(PORTFOLIO.resumeUrl).toBeNull();
+    expect(PORTFOLIO.resumeUrl).toBe("/resume/");
+    expect(PORTFOLIO.resumePdfUrl).toBe("/ayyman-eussoueff-resume.pdf");
   });
 });

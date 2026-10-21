@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "astro dev",
     "build": "astro build",
+    "resume:pdf": "astro build && node scripts/generate-resume-pdf.mjs",
     "preview": "astro preview",
     "check": "astro check",
     "lint": "eslint .",

@@ -1,17 +1,20 @@
 import { expect, test } from "@playwright/test";
 
-test("puts engineering work first and handles missing credentials honestly", async ({ page }) => {
+test("puts engineering work first and links the restored credentials", async ({ page }) => {
   await page.goto("/");
   const sectionIds = await page
     .locator("main > section")
     .evaluateAll((sections) => sections.map((section) => section.id));
   expect(sectionIds.indexOf("work")).toBeLessThan(sectionIds.indexOf("expertise"));
-  await expect(page.locator("#awards")).toContainText("Award details have not been published yet.");
-  await expect(page.getByRole("link", { name: "Request résumé" }).first()).toHaveAttribute(
+  await expect(page.locator("#awards")).toContainText("APEX 2026");
+  await expect(page.getByRole("link", { name: "View résumé / CV" }).first()).toHaveAttribute(
     "href",
-    "mailto:eussoueff@gmail.com?subject=R%C3%A9sum%C3%A9%20request",
+    "/resume/",
   );
-  await expect(page.locator("#resume")).toContainText("Available on request");
+  await expect(page.locator("#resume").getByRole("link", { name: "Download PDF" })).toHaveAttribute(
+    "download",
+    "",
+  );
   await expect(page.locator("canvas, iframe, .design-stamp")).toHaveCount(0);
 });
 

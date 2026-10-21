@@ -417,6 +417,18 @@ button {
   color: var(--color-muted);
   margin-bottom: 0.7rem;
 }
+.credential h4 {
+  margin: 0 0 0.4rem;
+  font-size: 0.95rem;
+  font-weight: 600;
+  line-height: 1.5;
+}
+.credential article + article {
+  margin-top: 1.4rem;
+}
+.credential .text-link {
+  margin-right: 1rem;
+}
 .now-grid {
   margin-left: 15rem;
   display: grid;

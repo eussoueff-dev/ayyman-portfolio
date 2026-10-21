@@ -12,7 +12,7 @@ Motion follows the operating system preference. A persistent pause control remai
 
 The home page leads with the developer identity and selected work, followed by engineering focus, toolkit, biography, education, awards, résumé, current focus, and contact. Case studies preserve the existing project content, contribution boundaries, and prototype qualifications.
 
-No award details or résumé file exist in the source data yet. Awards show a clear unpublished state. Résumé links request the document by email, with support for an actual download URL when supplied.
+The newer résumé commits from `origin/main` have been integrated. The original `/resume/` page and its print workflow are retained, with a direct PDF download added. Awards now show the APEX, ICE II JTMK, and SIC-16 results already present in that résumé. The download is a real static A4 PDF generated from the page's print stylesheet; see the README for regeneration.
 
 ## Verification
 
